@@ -13,3 +13,6 @@ deploy: ##@run Deploy the src files to the factorio mods folder
 	mkdir -p "$(PROJECT_DEST)"
 	cp ./src/** "$(PROJECT_DEST)"
 	sed -i 's/\$$(VERSION)/$(VERSION)/' "$(PROJECT_DEST)/info.json"
+
+watch: ##@run Watch the src files for changes and re-deploy and run once they do (requires wgo)
+	wgo -dir ./src make deploy :: make run
