@@ -3,6 +3,6 @@
 	"version": "$(VERSION)",
 	"title": "Color Coded Combinators",
 	"author": "CTNOriginals",
-	"factorio_version": "2.0",
+	"factorio_version": "2.1",
 	"dependencies": []
 }
