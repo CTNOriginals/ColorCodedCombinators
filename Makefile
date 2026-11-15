@@ -1,7 +1,7 @@
 -include .env
 include ./.make/base.mk
 
-FACTORIO_ARGS:=--load-game $(FACTORIO_DEV_SAVE)
+FACTORIO_ARGS:=--load-game $(FACTORIO_DEV_SAVE) --cache-sprite-atlas
 PROJECT_DEST:=$(FACTORIO_MOD_DIR)/$(PROJECT_NAME)
 FACTORIO_LOG?=$(FACTORIO_DIR)/factorio-current.log
 
