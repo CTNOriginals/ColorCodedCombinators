@@ -7,7 +7,7 @@ local M = {}
 ---@param entity LuaEntity the decider combinator
 M.clear = function(entity)
 	---@type StorageCombinator?
-	local entry = save.storage.combinators[entity.unit_number]
+	local entry = save.getEntry(entity)
 	if not entry then
 		return
 	end
@@ -22,7 +22,7 @@ end
 ---@param entity LuaEntity the decider combinator
 M.draw = function(entity)
 	---@type StorageCombinator?
-	local entry = save.storage.combinators[entity.unit_number]
+	local entry = save.getEntry(entity)
 	local combType = utils.GetCombinatorType(entity)
 	if not entry or not combType then
 		return
@@ -40,6 +40,7 @@ M.draw = function(entity)
 	})
 
 	entry.render = render
+	log("drew entry " .. combType .. "(" .. entry.entity.unit_number .. "): " .. serpent.line(entry.color))
 end
 
 ---@param entity LuaEntity the decider combinator
@@ -51,16 +52,13 @@ M.setColor = function(entity, color)
 	end
 
 	---@type StorageCombinator?
-	local entry = save.storage.combinators[entity.unit_number]
+	local entry = save.getEntry(entity)
 
 	if entry then
 		entry.color = color
 	else
-		entry = {
-			type = combType,
-			color = color,
-		}
-		save.storage.combinators[entity.unit_number] = entry
+		entry = save.createEntry(entity, color)
+		save.addEntry(entry)
 	end
 
 	script.register_on_object_destroyed(entity)

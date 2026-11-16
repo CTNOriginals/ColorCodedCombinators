@@ -12,7 +12,7 @@ deploy: ##@run Deploy the src files to the factorio mods folder
 	@echo Deploying $(PROJECT_NAME) \($(VERSION)\) to $(PROJECT_DEST)
 	rm -rf "$(PROJECT_DEST)"
 	mkdir -p "$(PROJECT_DEST)"
-	cp ./src/** "$(PROJECT_DEST)"
+	cp -r ./src/** "$(PROJECT_DEST)"
 	sed -i 's/\$$(VERSION)/$(VERSION)/' "$(PROJECT_DEST)/info.json"
 
 log: ##@run Follow the factorio log and print only the lines logged by this mod

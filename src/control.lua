@@ -7,8 +7,10 @@ log("-- loaded --")
 script.on_init(save.init)
 script.on_configuration_changed(save.init)
 
+log("Storage: " .. serpent.block(storage))
+
 script.on_event(defines.events.on_player_rotated_entity, function(event)
-	if not utils.GetCombinatorType(event.entity) then
+	if not utils.GetCombinatorType(event.entity) or not save.getEntry(event.entity) then
 		return
 	end
 	overlay.draw(event.entity)
@@ -18,15 +20,16 @@ script.on_event(defines.events.on_object_destroyed, function(event)
 	if not event.type == defines.target_type.entity then
 		return
 	end
-	save.storage.combinators[event.useful_id] = nil
+	save.removeEntry(event.useful_id)
 end)
 
+local alpha = 0.4
 ---@type table<string, Color>
 local COLORS = {
-	none = { r = 0, g = 0, b = 0 },
-	red = { r = 1, g = 0, b = 0 },
-	green = { r = 0, g = 1, b = 0 },
-	blue = { r = 0, g = 0, b = 1 },
+	none = { r = 0, g = 0, b = 0, a = alpha },
+	red = { r = 1, g = 0, b = 0, a = alpha },
+	green = { r = 0, g = 1, b = 0, a = alpha },
+	blue = { r = 0, g = 0, b = 1, a = alpha },
 }
 
 commands.add_command("proto-color", "Color the hovered decider", function(cmd)

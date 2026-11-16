@@ -28,4 +28,18 @@ M.GetCombinatorType = function(entity)
 	return nil
 end
 
+---@param r float
+---@param g float
+---@param b float
+---@param a float
+---@return Color
+M.NewColor = function(r, g, b, a)
+	return {
+		r = r,
+		g = g,
+		b = b,
+		a = a,
+	}
+end
+
 return M
