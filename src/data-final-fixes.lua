@@ -17,27 +17,32 @@ local function get_main_layer(sprite)
 end
 
 ---@param name string unique sprite name, e.g. "proto-decider-north"
----@param def Sprite the layer returned by get_main_layer
+---@param layers Sprite the layer returned by get_main_layer
 ---@return SpritePrototype
-local function make_sprite_prototype(name, def)
+local function make_sprite_prototype(name, layers)
 	---@type SpritePrototype
 	local proto = {
 		type = "sprite",
 		name = name,
-		layers = { def },
+		layers = { layers },
 	}
 
 	return proto
 end
 
-local decider = data.raw[const.entity.combinator.decider][const.entity.combinator.decider]
-local new_prototypes = {}
+local newPrototypes = {}
 
-for _, dir in pairs(const.sprite.directions) do
-	local layer = get_main_layer(decider.sprites[dir])
-	local proto = make_sprite_prototype(const.entity.prefix .. dir, layer)
-	table.insert(new_prototypes, proto)
+for _, name in pairs(const.entity.combinatorNames) do
+	local entityName = const.entity.combinator[name]
+	local def = data.raw[entityName][entityName]
+
+	for _, dir in pairs(const.sprite.directions) do
+		local layer = get_main_layer(def.sprites[dir])
+		local protoName = const.entity.prefix .. name .. "-" .. dir
+		local proto = make_sprite_prototype(protoName, layer)
+		table.insert(newPrototypes, proto)
+	end
 end
 
-data:extend(new_prototypes)
-log(serpent.block(new_prototypes))
+data:extend(newPrototypes)
+log(serpent.block(newPrototypes))
