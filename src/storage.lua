@@ -1,4 +1,5 @@
 ---@class StorageCombinator
+---@field type CombinatorType
 ---@field color Color
 ---@field render LuaRenderObject?
 

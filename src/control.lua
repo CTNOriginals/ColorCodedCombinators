@@ -1,3 +1,5 @@
+require("utils")
+
 local storage = require("storage")
 local const = require("constants")
 
@@ -6,22 +8,10 @@ log("-- loaded --")
 script.on_init(storage.init)
 script.on_configuration_changed(storage.init)
 
----@param entity LuaEntity
----@return boolean
-local function isCombinator(entity)
-	for _, name in pairs(const.entity.combinator) do
-		if name == entity.name then
-			return true
-		end
-	end
-
-	return false
-end
-
 ---@param entity LuaEntity the decider combinator
 local function clear_overlay(entity)
 	---@type StorageCombinator?
-	local entry = storage.combinators[entity.unit_number]
+	local entry = storage.data.combinators[entity.unit_number]
 	if not entry then
 		return
 	end
@@ -36,14 +26,16 @@ end
 ---@param entity LuaEntity the decider combinator
 local function draw_overlay(entity)
 	---@type StorageCombinator?
-	local entry = storage.combinators[entity.unit_number]
-	if not entry then
+	local entry = storage.data.combinators[entity.unit_number]
+	local combType = GetCombinatorType(entity)
+	if not entry or not combType then
 		return
 	end
 
 	clear_overlay(entity)
 
-	local name = const.entity.prefix .. const.sprite.directions[entity.direction]
+	-- local name = const.entity.prefix .. const.sprite.directions[entity.direction]
+	local name = GetCombinatorEntityName(combType, { const.sprite.directions[entity.direction] })
 	local render = rendering.draw_sprite({
 		sprite = name,
 		target = entity,
@@ -58,18 +50,22 @@ end
 ---@param entity LuaEntity the decider combinator
 ---@param color Color e.g. {r = 1, g = 0, b = 0}
 local function set_color(entity, color)
-	if not entity or not entity.valid or not isCombinator(entity) then
+	local combType = GetCombinatorType(entity)
+	if not entity or not entity.valid or not combType then
 		return
 	end
 
 	---@type StorageCombinator?
-	local entry = storage.combinators[entity.unit_number]
+	local entry = storage.data.combinators[entity.unit_number]
 
 	if entry then
 		entry.color = color
 	else
-		entry = { color = color }
-		storage.combinators[entity.unit_number] = entry
+		entry = {
+			type = combType,
+			color = color,
+		}
+		storage.data.combinators[entity.unit_number] = entry
 	end
 
 	script.register_on_object_destroyed(entity)
@@ -77,7 +73,7 @@ local function set_color(entity, color)
 end
 
 script.on_event(defines.events.on_player_rotated_entity, function(event)
-	if not isCombinator(event.entity) then
+	if not GetCombinatorType(event.entity) then
 		return
 	end
 	draw_overlay(event.entity)
@@ -87,7 +83,7 @@ script.on_event(defines.events.on_object_destroyed, function(event)
 	if not event.type == defines.target_type.entity then
 		return
 	end
-	storage.combinators[event.useful_id] = nil
+	storage.data.combinators[event.useful_id] = nil
 end)
 
 ---@type table<string, Color>
