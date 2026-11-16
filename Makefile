@@ -16,9 +16,7 @@ deploy: ##@run Deploy the src files to the factorio mods folder
 	sed -i 's/\$$(VERSION)/$(VERSION)/' "$(PROJECT_DEST)/info.json"
 
 log: ##@run Follow the factorio log and print only the lines logged by this mod
-	@tail -n +1 -F "$(FACTORIO_LOG)" 2>/dev/null | sed -un \
-		-e 's|^ *0\.000 [0-9-]* \([0-9:]*\);.*|\n\x1b[2m--- game started \1 ---\x1b[0m|p' \
-		-e 's|^ *\([0-9.]*\) Script @__$(PROJECT_NAME)__/\([^:]*:[0-9]*:\)|\x1b[2m\1 \2\x1b[0m|p'
+	@tail -n +1 -F "$(FACTORIO_LOG)" 2>/dev/null | awk -v mod="__$(PROJECT_NAME)__" -f scripts/mod-log.awk
 
 watch: ##@run Watch the src files for changes and re-deploy and run once they do (requires wgo)
 	wgo -dir ./src make deploy :: make run
