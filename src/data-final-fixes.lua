@@ -1,5 +1,4 @@
-require("utils")
-
+local utils = require("utils")
 local const = require("constants")
 
 ---@param sprite Sprite one direction of the decider's Sprite4Way (e.g. decider.sprites.north)
@@ -40,7 +39,7 @@ for _, combType in pairs(const.combinatorTypes) do
 
 	for _, dir in pairs(const.sprite.directionsNames) do
 		local layer = get_main_layer(def.sprites[dir])
-		local protoName = GetCombinatorEntityName(combType, { dir })
+		local protoName = utils.GetCombinatorEntityName(combType, { dir })
 		local proto = make_sprite_prototype(protoName, layer)
 		table.insert(newPrototypes, proto)
 		log(protoName)

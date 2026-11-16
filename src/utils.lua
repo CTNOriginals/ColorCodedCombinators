@@ -1,10 +1,12 @@
 local const = require("constants")
 
+local M = {}
+
 ---Returns the full name string including the prefix
 ---@param type CombinatorType
 ---@param trail string[]?
 ---@return string
-function GetCombinatorEntityName(type, trail)
+M.GetCombinatorEntityName = function(type, trail)
 	local start = const.entity.prefix .. const.entity.combinators[type]
 
 	if trail and #trail > 0 then
@@ -16,7 +18,7 @@ end
 
 ---@param entity LuaEntity
 ---@return string?
-function GetCombinatorType(entity)
+M.GetCombinatorType = function(entity)
 	for type, name in pairs(const.entity.combinators) do
 		if entity.name == name then
 			return type
@@ -25,3 +27,5 @@ function GetCombinatorType(entity)
 
 	return nil
 end
+
+return M

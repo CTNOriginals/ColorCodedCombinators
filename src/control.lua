@@ -1,8 +1,6 @@
-require("utils")
-
+local utils = require("utils")
 local overlay = require("overlay")
 local storage = require("storage")
-local const = require("constants")
 
 log("-- loaded --")
 
@@ -10,7 +8,7 @@ script.on_init(storage.init)
 script.on_configuration_changed(storage.init)
 
 script.on_event(defines.events.on_player_rotated_entity, function(event)
-	if not GetCombinatorType(event.entity) then
+	if not utils.GetCombinatorType(event.entity) then
 		return
 	end
 	overlay.draw(event.entity)
