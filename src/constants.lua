@@ -20,7 +20,13 @@ local M = {
 		combinatorNames = { "decider", "arithmetic", "constant", "selector" },
 	},
 	sprite = {
-		directions = { "north", "east", "south", "west" },
+		directions = {
+			[defines.direction.north] = "north",
+			[defines.direction.east] = "east",
+			[defines.direction.south] = "south",
+			[defines.direction.west] = "west",
+		},
+		directionsNames = { "north", "east", "south", "west" },
 	},
 }
 

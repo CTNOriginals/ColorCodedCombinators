@@ -36,7 +36,7 @@ for _, name in pairs(const.entity.combinatorNames) do
 	local entityName = const.entity.combinator[name]
 	local def = data.raw[entityName][entityName]
 
-	for _, dir in pairs(const.sprite.directions) do
+	for _, dir in pairs(const.sprite.directionsNames) do
 		local layer = get_main_layer(def.sprites[dir])
 		local protoName = const.entity.prefix .. name .. "-" .. dir
 		local proto = make_sprite_prototype(protoName, layer)
