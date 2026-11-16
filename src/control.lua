@@ -1,11 +1,11 @@
 local utils = require("utils")
 local overlay = require("overlay")
-local storage = require("storage")
+local save = require("save")
 
 log("-- loaded --")
 
-script.on_init(storage.init)
-script.on_configuration_changed(storage.init)
+script.on_init(save.init)
+script.on_configuration_changed(save.init)
 
 script.on_event(defines.events.on_player_rotated_entity, function(event)
 	if not utils.GetCombinatorType(event.entity) then
@@ -18,7 +18,7 @@ script.on_event(defines.events.on_object_destroyed, function(event)
 	if not event.type == defines.target_type.entity then
 		return
 	end
-	storage.data.combinators[event.useful_id] = nil
+	save.storage.combinators[event.useful_id] = nil
 end)
 
 ---@type table<string, Color>

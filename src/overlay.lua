@@ -1,13 +1,13 @@
-local utils = require("utils")
-local storage = require("storage")
 local const = require("constants")
+local utils = require("utils")
+local save = require("save")
 
 local M = {}
 
 ---@param entity LuaEntity the decider combinator
 M.clear = function(entity)
 	---@type StorageCombinator?
-	local entry = storage.data.combinators[entity.unit_number]
+	local entry = save.storage.combinators[entity.unit_number]
 	if not entry then
 		return
 	end
@@ -22,7 +22,7 @@ end
 ---@param entity LuaEntity the decider combinator
 M.draw = function(entity)
 	---@type StorageCombinator?
-	local entry = storage.data.combinators[entity.unit_number]
+	local entry = save.storage.combinators[entity.unit_number]
 	local combType = utils.GetCombinatorType(entity)
 	if not entry or not combType then
 		return
@@ -51,7 +51,7 @@ M.setColor = function(entity, color)
 	end
 
 	---@type StorageCombinator?
-	local entry = storage.data.combinators[entity.unit_number]
+	local entry = save.storage.combinators[entity.unit_number]
 
 	if entry then
 		entry.color = color
@@ -60,7 +60,7 @@ M.setColor = function(entity, color)
 			type = combType,
 			color = color,
 		}
-		storage.data.combinators[entity.unit_number] = entry
+		save.storage.combinators[entity.unit_number] = entry
 	end
 
 	script.register_on_object_destroyed(entity)
