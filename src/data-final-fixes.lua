@@ -41,8 +41,9 @@ for _, name in pairs(const.entity.combinatorNames) do
 		local protoName = const.entity.prefix .. name .. "-" .. dir
 		local proto = make_sprite_prototype(protoName, layer)
 		table.insert(newPrototypes, proto)
+		log(protoName)
 	end
 end
 
 data:extend(newPrototypes)
-log(serpent.block(newPrototypes))
+-- log(serpent.block(newPrototypes))
