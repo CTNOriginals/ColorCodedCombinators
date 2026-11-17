@@ -23,7 +23,7 @@ end
 ---@param entity LuaEntity
 ---@param color Color
 ---@return Save.Combinators.Entry
-M.createEntry = function(entity, color)
+M.create = function(entity, color)
 	return {
 		entity = entity,
 		type = utils.GetCombinatorType(entity),
@@ -32,18 +32,18 @@ M.createEntry = function(entity, color)
 end
 
 ---@param entry Save.Combinators.Entry
-M.addEntry = function(entry)
+M.add = function(entry)
 	storage.combinators[entry.entity.unit_number] = entry
 end
 
 ---@param id integer
-M.removeEntry = function(id)
+M.remove = function(id)
 	storage.combinators[id] = nil
 end
 
 ---@param entity LuaEntity
 ---@return Save.Combinators.Entry?
-M.getEntry = function(entity)
+M.get = function(entity)
 	return storage.combinators[entity.unit_number]
 end
 

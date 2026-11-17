@@ -7,7 +7,7 @@ local M = {}
 ---@param entity LuaEntity the decider combinator
 M.clear = function(entity)
 	---@type Save.Combinators.Entry?
-	local entry = save.combinators.getEntry(entity)
+	local entry = save.combinators.get(entity)
 	if not entry then
 		return
 	end
@@ -22,7 +22,7 @@ end
 ---@param entity LuaEntity the decider combinator
 M.draw = function(entity)
 	---@type Save.Combinators.Entry?
-	local entry = save.combinators.getEntry(entity)
+	local entry = save.combinators.get(entity)
 	local combType = utils.GetCombinatorType(entity)
 	if not entry or not combType then
 		return
@@ -52,20 +52,20 @@ M.setColor = function(entity, color)
 	end
 
 	---@type Save.Combinators.Entry?
-	local entry = save.combinators.getEntry(entity)
+	local entry = save.combinators.get(entity)
 
 	if entry then
 		entry.color = color
 	else
-		entry = save.combinators.createEntry(entity, color)
-		save.combinators.addEntry(entry)
+		entry = save.combinators.create(entity, color)
+		save.combinators.add(entry)
 	end
 
 	script.register_on_object_destroyed(entity)
 
 	if color.a == 0 then
 		M.clear(entity)
-		save.combinators.removeEntry(entity.unit_number)
+		save.combinators.remove(entity.unit_number)
 		return
 	end
 
