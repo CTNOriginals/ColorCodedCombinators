@@ -8,10 +8,6 @@ local utils = require("utils")
 
 ---@alias Save.Combinators.Map table<uint64, Save.Combinators.Entry>
 
----@class Save.Storage
----@field combinators Save.Combinators.Map
-
----@class Save.Combinators
 local M = {}
 
 M.init = function()

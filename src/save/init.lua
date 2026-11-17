@@ -1,7 +1,13 @@
 ---@class Save
----@field combinators Save.Combinators
+---@field combinators Save.Combinators.Map
+---@field players Save.Player.Map
+
+---@type Save
+storage = storage
+
 local M = {
 	combinators = require("save.combinators"),
+	players = require("save.player"),
 }
 
 M.init = function()
