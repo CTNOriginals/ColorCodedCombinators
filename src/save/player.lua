@@ -5,12 +5,26 @@ local utils = require("utils")
 -- TODO: swatches
 
 ---@class Save.Player.Entry
----@field name string
+---@field player LuaPlayer
 ---@field colorTool Save.Player.ColorTool
 
 ---@alias Save.Player.Map table<string, Save.Player.Entry>
 
 local M = {}
+
+local function getPlayerName(playerId)
+	if type(playerId) == "string" then
+		return playerId
+	end
+
+	local player = game.get_player(playerId)
+
+	if not player then
+		return ""
+	end
+
+	return player.name
+end
 
 M.init = function()
 	if not storage.players then
@@ -18,12 +32,18 @@ M.init = function()
 	end
 end
 
----@param name string
----@return Save.Player.Entry
-M.create = function(name)
+---@param playerId string|integer The players name or index
+---@return Save.Player.Entry?
+M.create = function(playerId)
+	local player = game.get_player(playerId)
+
+	if not player then
+		return nil
+	end
+
 	---@type Save.Player.Entry
 	return {
-		name = name,
+		player = player,
 		colorTool = {
 			color = utils.NewColor(0, 0, 0, 0),
 		},
@@ -32,18 +52,18 @@ end
 
 ---@param entry Save.Player.Entry
 M.add = function(entry)
-	storage.players[entry.name] = entry
+	storage.players[entry.player.name] = entry
 end
 
----@param name string
-M.remove = function(name)
-	storage.players[name] = nil
+---@param playerId string|integer
+M.remove = function(playerId)
+	storage.players[getPlayerName(playerId)] = nil
 end
 
----@param name string
+---@param playerId string|integer
 ---@return Save.Player.Entry?
-M.get = function(name)
-	return storage.players[name]
+M.get = function(playerId)
+	return storage.players[getPlayerName(playerId)]
 end
 
 return M
