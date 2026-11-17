@@ -19,7 +19,7 @@ M.init = function()
 	if not storage.combinators then
 		storage.combinators = {}
 	end
-	log("Storage initialized: " .. serpent.block(storage))
+	log("Storage initialized: " .. serpent.line(storage, { sparse = true }))
 end
 
 ---@param entity LuaEntity
@@ -40,7 +40,7 @@ end
 
 ---@param id integer
 M.removeEntry = function(id)
-	storage.combinators[id] = nil
+	table.remove(storage.combinators, id)
 end
 
 ---@param entity LuaEntity
