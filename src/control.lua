@@ -25,16 +25,7 @@ script.on_nth_tick(10, function()
 		return
 	end
 
-	local entry = save.players.get(player.name)
-	if not entry then
-		entry = save.players.create(player.name)
-		if not entry then
-			error("unable to find player by id " .. player.name)
-			return
-		end
-	end
-
-	gui.colorTool.open(entry)
+	gui.colorTool.open(save.players.getOrCreate(player.name))
 end)
 
 script.on_event(defines.events.on_player_rotated_entity, function(event)
@@ -73,16 +64,7 @@ local function onToolSelected(event)
 			return
 		end
 
-		local entry = save.players.get(player.name)
-		if not entry then
-			entry = save.players.create(player.name)
-			if not entry then
-				error("unable to find player by id " .. player.name)
-				return
-			end
-		end
-
-		gui.colorTool.open(entry)
+		gui.colorTool.open(save.players.getOrCreate(player.name))
 		player.clear_cursor()
 		return
 	end

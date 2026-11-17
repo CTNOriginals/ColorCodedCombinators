@@ -66,4 +66,19 @@ M.get = function(playerId)
 	return storage.players[getPlayerName(playerId)]
 end
 
+---@param playerId string|integer
+---@return Save.Player.Entry
+M.getOrCreate = function(playerId)
+	local entry = M.get(playerId)
+
+	if not entry then
+		entry = M.create(playerId)
+		if not entry then
+			error("unable to find player by id/name: " .. playerId)
+		end
+	end
+
+	return entry
+end
+
 return M
