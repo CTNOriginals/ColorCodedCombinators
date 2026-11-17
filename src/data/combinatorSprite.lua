@@ -42,7 +42,6 @@ for _, combType in pairs(const.combinatorTypes) do
 		local protoName = utils.GetCombinatorEntityName(combType, { dir })
 		local proto = make_sprite_prototype(protoName, layer)
 		table.insert(newPrototypes, proto)
-		log(protoName)
 	end
 end
 
