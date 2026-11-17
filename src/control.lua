@@ -1,5 +1,6 @@
 local utils = require("utils")
 local overlay = require("overlay")
+local const = require("constants")
 local save = require("save")
 
 log("-- loaded --")
@@ -28,11 +29,29 @@ end)
 local alpha = 0.4
 ---@type table<string, Color>
 local COLORS = {
-	none = { r = 0, g = 0, b = 0, a = alpha },
+	none = { r = 0, g = 0, b = 0, a = 0 },
 	red = { r = 1, g = 0, b = 0, a = alpha },
 	green = { r = 0, g = 1, b = 0, a = alpha },
 	blue = { r = 0, g = 0, b = 1, a = alpha },
 }
+
+---@param color Color
+---@return fun(event: EventData.on_player_selected_area | EventData.on_player_alt_selected_area)
+local function onToolSelected(color)
+	return function(event)
+		if event.item ~= const.shortcut.tool then
+			return
+		end
+
+		for _, entity in pairs(event.entities) do
+			overlay.setColor(entity, color)
+		end
+	end
+end
+
+-- TODO: placeholder colors until the tool has a way to pick one
+script.on_event(defines.events.on_player_selected_area, onToolSelected(COLORS.red))
+script.on_event(defines.events.on_player_alt_selected_area, onToolSelected(COLORS.none))
 
 commands.add_command("proto-color", "Color the hovered decider", function(cmd)
 	if not cmd.player_index then

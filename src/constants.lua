@@ -19,6 +19,10 @@ local M = {
 			constant = "constant-combinator",
 		},
 	},
+	shortcut = {
+		name = "ccc-color-tool",
+		tool = "ccc-color-tool",
+	},
 	sprite = {
 		directions = {
 			[defines.direction.north] = "north",
