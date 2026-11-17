@@ -11,10 +11,10 @@ script.on_init(save.init)
 script.on_configuration_changed(save.init)
 
 script.on_load(function()
-	log("Storage(" .. table_size(storage.combinators) .. "): " .. serpent.block(storage, {
-		sparse = true,
-		refcomment = true,
-	}))
+	-- log("Storage(" .. table_size(storage.combinators) .. "): " .. serpent.block(storage, {
+	-- 	sparse = true,
+	-- 	refcomment = true,
+	-- }))
 end)
 script.on_nth_tick(10, function()
 	script.on_nth_tick(10, nil)
