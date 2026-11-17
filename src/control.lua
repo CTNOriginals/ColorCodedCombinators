@@ -7,7 +7,9 @@ log("-- loaded --")
 script.on_init(save.init)
 script.on_configuration_changed(save.init)
 
-log("Storage: " .. serpent.block(storage))
+script.on_load(function()
+	log("Storage: " .. serpent.block(storage))
+end)
 
 script.on_event(defines.events.on_player_rotated_entity, function(event)
 	if not utils.GetCombinatorType(event.entity) or not save.getEntry(event.entity) then

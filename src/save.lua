@@ -46,11 +46,6 @@ end
 ---@param entity LuaEntity
 ---@return StorageCombinator?
 M.getEntry = function(entity)
-	if not storage.combinators then
-		log("[WARN] storage.combinators is nil. Re-initializing storage.")
-		M.init()
-	end
-
 	return storage.combinators[entity.unit_number]
 end
 
