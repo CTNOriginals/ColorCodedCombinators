@@ -1,7 +1,7 @@
 local utils = require("utils")
 local overlay = require("overlay")
 local const = require("constants")
-local save = require("save")
+local save = require("save.init")
 local gui = require("gui.init")
 require("dev")
 
@@ -29,7 +29,7 @@ script.on_nth_tick(10, function()
 end)
 
 script.on_event(defines.events.on_player_rotated_entity, function(event)
-	if not utils.GetCombinatorType(event.entity) or not save.getEntry(event.entity) then
+	if not utils.GetCombinatorType(event.entity) or not save.combinators.getEntry(event.entity) then
 		return
 	end
 
@@ -40,7 +40,7 @@ script.on_event(defines.events.on_object_destroyed, function(event)
 	if not event.type == defines.target_type.entity then
 		return
 	end
-	save.removeEntry(event.useful_id)
+	save.combinators.removeEntry(event.useful_id)
 end)
 
 local alpha = 0.4

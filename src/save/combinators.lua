@@ -11,15 +11,13 @@ local utils = require("utils")
 ---@class SaveStorage
 ---@field combinators StorageCombinatorMap
 
+---@class SaveCombinators
 local M = {}
-
----@type SaveStorage
 
 M.init = function()
 	if not storage.combinators then
 		storage.combinators = {}
 	end
-	log("Storage initialized: " .. serpent.line(storage, { sparse = true }))
 end
 
 ---@param entity LuaEntity
