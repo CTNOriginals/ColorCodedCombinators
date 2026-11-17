@@ -94,17 +94,17 @@ M.open = function(entry)
 
 	color.style.color = entry.colorTool.color
 
-	for name, val in pairs(entry.colorTool.color) do
+	for channel, val in pairs(entry.colorTool.color) do
 		local row = section.add({
 			type = "flow",
-			name = M.getName(entry, section, name, "row"),
+			name = M.getName(entry, section, channel, "row"),
 			direction = "horizontal",
 		})
 
 		local label = row.add({
 			type = "label",
 			name = M.getName(entry, row, "label"),
-			caption = string.upper(name),
+			caption = string.upper(channel),
 		})
 		local slider = row.add({
 			type = "slider",
@@ -131,9 +131,16 @@ M.open = function(entry)
 		row.style.vertical_align = "center"
 
 		-- label.style.font_color = utils.NewColor(0, 1, 0, 1)
+		-- local fontColor = utils.NewColor(0, 0, 0, 1)
+		-- if channel ~= "a" then
+		-- 	fontColor[channel] = 1
+		-- else
+		-- 	fontColor = utils.NewColor(1, 1, 1, 1)
+		-- end
 		label.style.width = total * ratios.label
 		label.style.horizontal_align = "center"
 		label.style.vertical_align = "center"
+		-- label.style.font_color = fontColor
 
 		slider.style.width = total * ratios.slider
 		slider.style.top_margin = 2
@@ -145,7 +152,7 @@ M.open = function(entry)
 
 		M.handlers[slider.name] = function(event)
 			local newVal = event.element.slider_value
-			entry.colorTool.color[name] = newVal
+			entry.colorTool.color[channel] = newVal
 			text.text = tostring(math.floor(newVal * 255))
 			color.style.color = entry.colorTool.color
 		end
@@ -161,7 +168,7 @@ M.open = function(entry)
 			text.text = tostring(newVal)
 
 			newVal = newVal / 255
-			entry.colorTool.color[name] = newVal
+			entry.colorTool.color[channel] = newVal
 			slider.slider_value = newVal
 			color.style.color = entry.colorTool.color
 		end
