@@ -43,15 +43,6 @@ script.on_event(defines.events.on_object_destroyed, function(event)
 	save.combinators.remove(event.useful_id)
 end)
 
-local alpha = 0.4
----@type table<string, Color>
-local COLORS = {
-	none = { r = 0, g = 0, b = 0, a = 0 },
-	red = { r = 1, g = 0, b = 0, a = alpha },
-	green = { r = 0, g = 1, b = 0, a = alpha },
-	blue = { r = 0, g = 0, b = 1, a = alpha },
-}
-
 ---@param event EventData.on_player_selected_area | EventData.on_player_alt_selected_area
 local function onToolSelected(event)
 	if event.item ~= const.shortcut.tool then
