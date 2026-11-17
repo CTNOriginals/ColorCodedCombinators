@@ -1,24 +1,17 @@
 # Filters factorio-current.log down to the lines logged by one mod.
-# Usage: awk -v mod="mod-name" -v info="path/to/deployed/info.json" -f mod-log.awk
+# The mod name and version are read from the deployed info.json.
+# Usage: awk -v info="path/to/deployed/info.json" -f mod-log.awk
 #
 # State:
 #   mine    - the current log entry belongs to our mod, so print its continuation lines
 #   pending - the current entry is an error that has not mentioned our mod yet
 #   buf     - the held lines of a pending error
 
-BEGIN {
-	modpath = "__" mod "__";
-	prefix = "Script @" modpath "/";
-	dim = "\033[2m";
-	red = "\033[31m";
-	reset = "\033[0m"
-}
-
-# Reads the version from the deployed info.json, so it is current for every game launch
-function read_version(   l, v) {
-	v = "?"
+# Reads a string value from the deployed info.json
+function read_info(key,   l, v) {
+	v = ""
 	while ((getline l < info) > 0) {
-		if (match(l, /"version"[ \t]*:[ \t]*"[^"]*"/)) {
+		if (match(l, "\"" key "\"[ \t]*:[ \t]*\"[^\"]*\"")) {
 			v = substr(l, RSTART, RLENGTH)
 			sub(/"$/, "", v)
 			sub(/.*"/, "", v)
@@ -27,6 +20,20 @@ function read_version(   l, v) {
 	}
 	close(info)
 	return v
+}
+
+BEGIN {
+	mod = read_info("name")
+	if (mod == "") {
+		print "mod-log: could not read the mod name from " info > "/dev/stderr"
+		exit 1
+	}
+
+	modpath = "__" mod "__";
+	prefix = "Script @" modpath "/";
+	dim = "\033[2m";
+	red = "\033[31m";
+	reset = "\033[0m"
 }
 
 function emit(str) {
@@ -48,10 +55,12 @@ function handle_error(   line) {
 }
 
 # Header line: "   0.000 2026-11-16 00:03:15; Factorio ..."
-function handle_header(   time) {
+function handle_header(   time, version) {
 	time = $3
 	sub(/;$/, "", time)
-	emit(sprintf("\n%s--- %s (v%s) %s ---%s", dim, mod, read_version(), time, reset))
+	# Version is read per launch, since a re-deploy can change it while we are following
+	version = read_info("version")
+	emit(sprintf("\n%s--- %s (v%s) %s ---%s", dim, mod, version == "" ? "?" : version, time, reset))
 }
 
 # Mod line: "   5.123 Script @__mod__/control.lua:12: message"

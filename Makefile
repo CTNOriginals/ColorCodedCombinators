@@ -17,7 +17,7 @@ deploy: ##@run Deploy the src files to the factorio mods folder
 
 log: ##@run Follow the factorio log and print only the lines logged by this mod
 	@tail -n +1 -F "$(FACTORIO_LOG)" 2>/dev/null | \
-		awk -v mod="$(PROJECT_NAME)" -v info="$(PROJECT_DEST)/info.json" -f scripts/mod-log.awk
+		awk -v info="$(PROJECT_DEST)/info.json" -f scripts/mod-log.awk
 
 watch: ##@run Watch the src files for changes and re-deploy and run once they do (requires wgo)
 	wgo -dir ./src make deploy :: make run
