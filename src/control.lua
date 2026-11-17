@@ -2,6 +2,7 @@ local utils = require("utils")
 local overlay = require("overlay")
 local const = require("constants")
 local save = require("save")
+local gui = require("gui")
 
 log("-- loaded --")
 
@@ -13,6 +14,17 @@ script.on_load(function()
 		sparse = true,
 		refcomment = true,
 	}))
+end)
+script.on_nth_tick(10, function()
+	script.on_nth_tick(10, nil)
+
+	local player = game.get_player(1)
+	if not player then
+		log("no player")
+		return
+	end
+
+	gui.open(player)
 end)
 
 script.on_event(defines.events.on_player_rotated_entity, function(event)
@@ -44,6 +56,11 @@ local COLORS = {
 local function onToolSelected(color)
 	return function(event)
 		if event.item ~= const.shortcut.tool then
+			return
+		end
+
+		if #event.entities == 0 then
+			log("no selection")
 			return
 		end
 
