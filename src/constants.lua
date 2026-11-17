@@ -35,7 +35,9 @@ M.shortcut.name = M.shortcut.tool .. "-shortcut"
 
 -- GUI
 
-M.guiPrefix = M.prefix .. "gui-"
+M.gui = {}
+M.gui.prefix = M.prefix .. "gui-"
+M.gui.colorTool = M.gui.prefix .. "color-tool-"
 
 -- Dev
 

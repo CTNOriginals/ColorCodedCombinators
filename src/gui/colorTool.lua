@@ -1,13 +1,12 @@
 local const = require("constants")
 
 local M = {}
-M.prefix = "color-tool-"
 
 ---@param entry Save.Player.Entry
 ---@param trail string[]?
 ---@return string
 M.getName = function(entry, trail)
-	local name = const.guiPrefix .. M.prefix .. entry.player.name
+	local name = const.gui.colorTool .. entry.player.name
 
 	if not trail or #trail == 0 then
 		return name
