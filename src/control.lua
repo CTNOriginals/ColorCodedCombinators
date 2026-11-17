@@ -11,22 +11,22 @@ script.on_init(save.init)
 script.on_configuration_changed(save.init)
 
 script.on_load(function()
-	log("Storage(" .. table_size(storage.combinators) .. "): " .. serpent.line(storage, {
-		sparse = true,
-		refcomment = true,
-	}))
+	-- log("Storage(" .. table_size(storage.combinators) .. "): " .. serpent.line(storage, {
+	-- 	sparse = true,
+	-- 	refcomment = true,
+	-- }))
 end)
-script.on_nth_tick(10, function()
-	script.on_nth_tick(10, nil)
-
-	local player = game.get_player(1)
-	if not player then
-		log("no player")
-		return
-	end
-
-	gui.colorTool.open(save.players.getOrCreate(player.name))
-end)
+-- script.on_nth_tick(10, function()
+-- 	script.on_nth_tick(10, nil)
+--
+-- 	local player = game.get_player(1)
+-- 	if not player then
+-- 		log("no player")
+-- 		return
+-- 	end
+--
+-- 	gui.colorTool.open(save.players.getOrCreate(player.name))
+-- end)
 
 script.on_event(defines.events.on_player_rotated_entity, function(event)
 	if not utils.GetCombinatorType(event.entity) or not save.combinators.getEntry(event.entity) then
@@ -49,45 +49,24 @@ local function onToolSelected(event)
 		return
 	end
 
-	if #event.entities == 0 then
-		local player = game.get_player(event.player_index)
-		if not player then
-			return
-		end
+	local entry = save.players.getOrCreate(event.player_index)
 
-		gui.colorTool.open(save.players.getOrCreate(player.name))
-		player.clear_cursor()
+	if #event.entities == 0 then
+		gui.colorTool.open(entry)
+		entry.player.clear_cursor()
 		return
 	end
 
-	local color = gui.color
-	if event.name == defines.events.on_player_alt_selected_area then
-		color = utils.NewColor(0, 0, 0, 0)
-	end
+	local color = entry.colorTool.color
 
 	for _, entity in pairs(event.entities) do
-		overlay.setColor(entity, color)
+		if event.name == defines.events.on_player_alt_selected_area then
+			overlay.clear(entity)
+		else
+			overlay.setColor(entity, color)
+		end
 	end
 end
 
--- TODO: placeholder colors until the tool has a way to pick one
 script.on_event(defines.events.on_player_selected_area, onToolSelected)
 script.on_event(defines.events.on_player_alt_selected_area, onToolSelected)
-
-commands.add_command("proto-color", "Color the hovered decider", function(cmd)
-	if not cmd.player_index then
-		return
-	end
-
-	local player = game.get_player(cmd.player_index)
-	if not player or not player.selected then
-		return
-	end
-
-	local color = COLORS.none
-	if cmd.parameter then
-		color = COLORS[cmd.parameter]
-	end
-
-	overlay.setColor(player.selected, color)
-end)

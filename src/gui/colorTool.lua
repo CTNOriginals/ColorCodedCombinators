@@ -190,6 +190,9 @@ M.open = function(entry)
 
 	M.handlers[submit.name] = function(event)
 		M.close(entry)
+		if entry.player.clear_cursor() then
+			entry.player.cursor_stack.set_stack({ name = const.shortcut.tool })
+		end
 	end
 
 	-- recurse(frame, function(element, depth)

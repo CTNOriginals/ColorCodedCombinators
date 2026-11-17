@@ -40,7 +40,7 @@ M.draw = function(entity)
 	})
 
 	entry.render = render
-	log("drew entry " .. combType .. "(" .. entry.entity.unit_number .. "): " .. serpent.line(entry.color))
+	-- log("drew entry " .. combType .. "(" .. entry.entity.unit_number .. "): " .. serpent.line(entry.color))
 end
 
 ---@param entity LuaEntity the decider combinator
@@ -62,12 +62,6 @@ M.setColor = function(entity, color)
 	end
 
 	script.register_on_object_destroyed(entity)
-
-	if color.a == 0 then
-		M.clear(entity)
-		save.combinators.remove(entity.unit_number)
-		return
-	end
 
 	M.draw(entity)
 end
