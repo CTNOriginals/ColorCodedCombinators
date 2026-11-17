@@ -109,6 +109,7 @@ M.open = function(entry)
 		local slider = row.add({
 			type = "slider",
 			name = M.getName(entry, row, "slider"),
+			style = const.gui.sliderStyle .. channel,
 			minimum_value = 0,
 			maximum_value = 1,
 			value_step = 0.001,
