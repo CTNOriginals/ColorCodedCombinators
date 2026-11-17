@@ -11,10 +11,10 @@ script.on_init(save.init)
 script.on_configuration_changed(save.init)
 
 script.on_load(function()
-	-- log("Storage(" .. table_size(storage.combinators) .. "): " .. serpent.block(storage, {
-	-- 	sparse = true,
-	-- 	refcomment = true,
-	-- }))
+	log("Storage(" .. table_size(storage.combinators) .. "): " .. serpent.block(storage, {
+		sparse = true,
+		refcomment = true,
+	}))
 end)
 script.on_nth_tick(10, function()
 	script.on_nth_tick(10, nil)
@@ -25,7 +25,7 @@ script.on_nth_tick(10, function()
 		return
 	end
 
-	-- gui.open(player)
+	gui.open(player)
 end)
 
 script.on_event(defines.events.on_player_rotated_entity, function(event)
@@ -52,28 +52,30 @@ local COLORS = {
 	blue = { r = 0, g = 0, b = 1, a = alpha },
 }
 
----@param color Color
----@return fun(event: EventData.on_player_selected_area | EventData.on_player_alt_selected_area)
-local function onToolSelected(color)
-	return function(event)
-		if event.item ~= const.shortcut.tool then
+---@param event EventData.on_player_selected_area | EventData.on_player_alt_selected_area
+local function onToolSelected(event)
+	if event.item ~= const.shortcut.tool then
+		return
+	end
+
+	if #event.entities == 0 then
+		local player = game.get_player(event.player_index)
+		if not player then
 			return
 		end
+		gui.open(player)
+		player.clear_cursor()
+		return
+	end
 
-		if #event.entities == 0 then
-			log("no selection")
-			return
-		end
-
-		for _, entity in pairs(event.entities) do
-			overlay.setColor(entity, color)
-		end
+	for _, entity in pairs(event.entities) do
+		overlay.setColor(entity, gui.color)
 	end
 end
 
 -- TODO: placeholder colors until the tool has a way to pick one
-script.on_event(defines.events.on_player_selected_area, onToolSelected(COLORS.red))
-script.on_event(defines.events.on_player_alt_selected_area, onToolSelected(COLORS.none))
+script.on_event(defines.events.on_player_selected_area, onToolSelected)
+script.on_event(defines.events.on_player_alt_selected_area, onToolSelected)
 
 commands.add_command("proto-color", "Color the hovered decider", function(cmd)
 	if not cmd.player_index then

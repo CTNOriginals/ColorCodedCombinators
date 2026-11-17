@@ -3,6 +3,7 @@ local utils = require("utils")
 
 local M = {}
 M.name = const.gui.prefix .. "color-picker"
+M.color = utils.NewColor(0, 0, 0, 0)
 
 local function elementName(name)
 	return M.name .. "-" .. name
@@ -61,6 +62,11 @@ M.open = function(player)
 
 		local color = utils.NewColor(rgb[1], rgb[2], rgb[3], 0.5)
 		log(serpent.line(color))
+		M.color = color
+		if player.clear_cursor() then
+			player.cursor_stack.set_stack({ name = const.shortcut.tool, count = 1 })
+		end
+		M.close(player)
 	end
 end
 
