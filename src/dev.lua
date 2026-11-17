@@ -2,7 +2,9 @@
 -- Requires factorio to be started with --enable-lua-udp (see FACTORIO_ARGS in the Makefile).
 -- TODO: do not ship this in a release
 
-local RELOAD_PAYLOAD = "ccc-reload"
+local const = require("constants")
+
+local RELOAD_PAYLOAD = const.reloadPayload
 
 -- received packets only turn into events once recv_udp is called
 script.on_nth_tick(30, function()

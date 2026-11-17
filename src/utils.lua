@@ -7,7 +7,7 @@ local M = {}
 ---@param trail string[]?
 ---@return string
 M.GetCombinatorEntityName = function(type, trail)
-	local start = const.entity.prefix .. const.entity.combinators[type]
+	local start = const.prefix .. const.combinatorEntities[type]
 
 	if trail and #trail > 0 then
 		return start .. "-" .. table.concat(trail, "-")
@@ -19,7 +19,7 @@ end
 ---@param entity LuaEntity
 ---@return string?
 M.GetCombinatorType = function(entity)
-	for type, name in pairs(const.entity.combinators) do
+	for type, name in pairs(const.combinatorEntities) do
 		if entity.name == name then
 			return type
 		end

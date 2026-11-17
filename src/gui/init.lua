@@ -2,7 +2,7 @@ local const = require("constants")
 local utils = require("utils")
 
 local M = {}
-M.name = const.gui.prefix .. "color-picker"
+M.name = const.guiPrefix .. "color-picker"
 M.color = utils.NewColor(0, 0, 0, 0)
 
 local function elementName(name)

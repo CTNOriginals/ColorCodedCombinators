@@ -30,7 +30,7 @@ M.draw = function(entity)
 
 	M.clear(entity)
 
-	local name = utils.GetCombinatorEntityName(combType, { const.sprite.directions[entity.direction] })
+	local name = utils.GetCombinatorEntityName(combType, { const.directionToName[entity.direction] })
 	local render = rendering.draw_sprite({
 		sprite = name,
 		target = entity,

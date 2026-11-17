@@ -1,43 +1,47 @@
----@alias CombinatorType 'decider' | 'arithmetic' | 'constant' | 'selector'
+---@alias CombinatorType 'decider' | 'arithmetic' | 'selector' | 'constant'
 
----@class Combinators<T>: {[CombinatorType]: T}
----@field decider T
----@field arithmetic T
----@field selector T
----@field constant T
+local M = {}
 
-local prefix = "ccc-"
+M.prefix = "ccc-"
 
-local M = {
-	---@type CombinatorType[]
-	combinatorTypes = { "decider", "arithmetic", "constant", "selector" },
-	entity = {
-		prefix = prefix,
-		---@type Combinators<string>
-		combinators = {
-			decider = "decider-combinator",
-			arithmetic = "arithmetic-combinator",
-			selector = "selector-combinator",
-			constant = "constant-combinator",
-		},
-	},
-	shortcut = {
-		name = prefix .. "color-tool",
-		tool = prefix .. "color-tool",
-		input = prefix .. "color-tool-input",
-	},
-	gui = {
-		prefix = prefix .. "gui-",
-	},
-	sprite = {
-		directions = {
-			[defines.direction.north] = "north",
-			[defines.direction.east] = "east",
-			[defines.direction.south] = "south",
-			[defines.direction.west] = "west",
-		},
-		directionsNames = { "north", "east", "south", "west" },
-	},
-}
+-- Combinators
+
+---@type CombinatorType[]
+M.combinatorTypes = { "decider", "arithmetic", "selector", "constant" }
+
+---Vanilla entity name per combinator type
+---@type {[CombinatorType]: string}
+M.combinatorEntities = {}
+for _, type in ipairs(M.combinatorTypes) do
+	M.combinatorEntities[type] = type .. "-combinator"
+end
+
+-- Directions
+
+M.directionNames = { "north", "east", "south", "west" }
+
+---@type {[defines.direction]: string}
+M.directionToName = {}
+for _, name in ipairs(M.directionNames) do
+	M.directionToName[defines.direction[name]] = name
+end
+
+-- Shortcut
+
+M.shortcut = {}
+M.shortcut.tool = M.prefix .. "color-tool"
+M.shortcut.input = M.shortcut.tool .. "-input"
+M.shortcut.name = M.shortcut.tool .. "-shortcut"
+
+-- GUI
+
+M.guiPrefix = M.prefix .. "gui-"
+
+-- Dev
+
+M.reloadPayload = M.prefix .. "reload"
+
+-- Visualise the result
+-- log(serpent.block(M, { sparse = true }))
 
 return M

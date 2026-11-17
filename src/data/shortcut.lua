@@ -2,7 +2,7 @@ local const = require("constants")
 
 ---@type string[]
 local combinatorNames = {}
-for _, name in pairs(const.entity.combinators) do
+for _, name in pairs(const.combinatorEntities) do
 	table.insert(combinatorNames, name)
 end
 

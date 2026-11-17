@@ -34,10 +34,10 @@ end
 local newPrototypes = {}
 
 for _, combType in pairs(const.combinatorTypes) do
-	local entityName = const.entity.combinators[combType]
+	local entityName = const.combinatorEntities[combType]
 	local def = data.raw[entityName][entityName]
 
-	for _, dir in pairs(const.sprite.directionsNames) do
+	for _, dir in pairs(const.directionNames) do
 		local layer = get_main_layer(def.sprites[dir])
 		local protoName = utils.GetCombinatorEntityName(combType, { dir })
 		local proto = make_sprite_prototype(protoName, layer)
