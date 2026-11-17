@@ -5,6 +5,7 @@ local M = {}
 
 ---@alias onGuiEvents EventData.on_gui_value_changed
 ---| EventData.on_gui_text_changed
+---| EventData.on_gui_click
 
 ---@type table<string, fun(event: onGuiEvents)>
 M.handlers = {}
@@ -175,9 +176,30 @@ M.open = function(entry)
 		end
 	end
 
-	recurse(frame, function(element, depth)
-		log(element.name)
-	end, "down")
+	local submit = frame.add({
+		type = "button",
+		name = M.getName(entry, frame, "submit"),
+		caption = { "gui.color-tool-submit" },
+		style = "confirm_button",
+	})
+
+	-- submit.spr
+	submit.style.horizontal_align = "center"
+	submit.style.width = 230
+	submit.style.height = 30
+
+	M.handlers[submit.name] = function(event)
+		M.close(entry)
+	end
+
+	-- recurse(frame, function(element, depth)
+	-- 	log(element.name)
+	-- end, "down")
+end
+
+---@param entry Save.Player.Entry
+M.close = function(entry)
+	entry.player.gui.screen[M.getName(entry)].destroy()
 end
 
 return M

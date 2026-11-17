@@ -13,7 +13,7 @@ function handleGuiEvent(event)
 		module.handlers[event.element.name](event)
 	end
 end
--- script.on_event(defines.events.on_gui_click, M.onClick)
+script.on_event(defines.events.on_gui_click, handleGuiEvent)
 script.on_event(defines.events.on_gui_value_changed, handleGuiEvent)
 script.on_event(defines.events.on_gui_text_changed, handleGuiEvent)
 
