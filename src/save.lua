@@ -40,7 +40,7 @@ end
 
 ---@param id integer
 M.removeEntry = function(id)
-	table.remove(storage.combinators, id)
+	storage.combinators[id] = nil
 end
 
 ---@param entity LuaEntity
