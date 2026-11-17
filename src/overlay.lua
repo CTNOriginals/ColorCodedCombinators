@@ -62,6 +62,13 @@ M.setColor = function(entity, color)
 	end
 
 	script.register_on_object_destroyed(entity)
+
+	if color.a == 0 then
+		M.clear(entity)
+		save.removeEntry(entity.unit_number)
+		return
+	end
+
 	M.draw(entity)
 end
 
