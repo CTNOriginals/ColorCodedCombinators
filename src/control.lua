@@ -3,6 +3,7 @@ local overlay = require("overlay")
 local const = require("constants")
 local save = require("save")
 local gui = require("gui")
+require("dev")
 
 log("-- loaded --")
 

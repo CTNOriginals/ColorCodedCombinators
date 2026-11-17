@@ -4,6 +4,12 @@ local FRAME_NAME = "ccc-color-picker"
 
 ---@param player LuaPlayer
 M.open = function(player)
+	local existing = player.gui.screen[FRAME_NAME]
+	if existing then
+		log("reloading gui")
+		existing.destroy()
+	end
+
 	-- everything in gui.screen is a free floating window
 	local frame = player.gui.screen.add({
 		type = "frame",
