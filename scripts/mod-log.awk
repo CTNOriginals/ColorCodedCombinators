@@ -1,5 +1,5 @@
 # Filters factorio-current.log down to the lines logged by one mod.
-# Usage: awk -v mod="mod-name" -v version="vx.x.x" -f mod-log.awk
+# Usage: awk -v mod="mod-name" -v info="path/to/deployed/info.json" -f mod-log.awk
 
 BEGIN {
 	modpath = "__" mod "__";
@@ -7,6 +7,21 @@ BEGIN {
 	dim = "\033[2m";
 	red = "\033[31m";
 	reset = "\033[0m"
+}
+
+# Reads the version from the deployed info.json, so it is current for every game launch
+function read_version(   l, v) {
+	v = "?"
+	while ((getline l < info) > 0) {
+		if (match(l, /"version"[ \t]*:[ \t]*"[^"]*"/)) {
+			v = substr(l, RSTART, RLENGTH)
+			sub(/"$/, "", v)
+			sub(/.*"/, "", v)
+			break
+		}
+	}
+	close(info)
+	return v
 }
 
 # Every new log entry starts with a timestamp; continuation lines do not
@@ -32,7 +47,7 @@ BEGIN {
 	# Header line: "   0.000 2026-11-16 00:03:15; Factorio ..."
 	if ($1 == "0.000" && $2 ~ /^[0-9]+-/ && $3 ~ /;$/) {
 		sub(/;$/, "", $3)
-		printf "\n%s--- %s (%s) %s ---%s\n", dim, mod, version, $3, reset
+		printf "\n%s--- %s (v%s) %s ---%s\n", dim, mod, read_version(), $3, reset
 		fflush()
 		next
 	}
