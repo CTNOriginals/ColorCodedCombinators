@@ -29,7 +29,7 @@ script.on_nth_tick(10, function()
 end)
 
 script.on_event(defines.events.on_player_rotated_entity, function(event)
-	if not utils.GetCombinatorType(event.entity) or not save.combinators.get(event.entity) then
+	if not utils.GetCombinatorType(event.entity) or not save.combinators.getEntry(event.entity) then
 		return
 	end
 
@@ -68,8 +68,13 @@ local function onToolSelected(event)
 		return
 	end
 
+	local color = gui.color
+	if event.name == defines.events.on_player_alt_selected_area then
+		color = utils.NewColor(0, 0, 0, 0)
+	end
+
 	for _, entity in pairs(event.entities) do
-		overlay.setColor(entity, gui.color)
+		overlay.setColor(entity, color)
 	end
 end
 
