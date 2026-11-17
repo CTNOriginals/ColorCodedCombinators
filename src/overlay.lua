@@ -6,7 +6,7 @@ local M = {}
 
 ---@param entity LuaEntity the decider combinator
 M.clear = function(entity)
-	---@type StorageCombinator?
+	---@type Save.Combinators.Entry?
 	local entry = save.combinators.getEntry(entity)
 	if not entry then
 		return
@@ -21,7 +21,7 @@ end
 
 ---@param entity LuaEntity the decider combinator
 M.draw = function(entity)
-	---@type StorageCombinator?
+	---@type Save.Combinators.Entry?
 	local entry = save.combinators.getEntry(entity)
 	local combType = utils.GetCombinatorType(entity)
 	if not entry or not combType then
@@ -51,7 +51,7 @@ M.setColor = function(entity, color)
 		return
 	end
 
-	---@type StorageCombinator?
+	---@type Save.Combinators.Entry?
 	local entry = save.combinators.getEntry(entity)
 
 	if entry then

@@ -1,17 +1,17 @@
 local utils = require("utils")
 
----@class StorageCombinator
+---@class Save.Combinators.Entry
 ---@field type CombinatorType
 ---@field entity LuaEntity
 ---@field color Color
 ---@field render LuaRenderObject?
 
----@alias StorageCombinatorMap table<uint64, StorageCombinator>
+---@alias Save.Combinators.Map table<uint64, Save.Combinators.Entry>
 
----@class SaveStorage
----@field combinators StorageCombinatorMap
+---@class Save.Storage
+---@field combinators Save.Combinators.Map
 
----@class SaveCombinators
+---@class Save.Combinators
 local M = {}
 
 M.init = function()
@@ -22,7 +22,7 @@ end
 
 ---@param entity LuaEntity
 ---@param color Color
----@return StorageCombinator
+---@return Save.Combinators.Entry
 M.createEntry = function(entity, color)
 	return {
 		entity = entity,
@@ -31,7 +31,7 @@ M.createEntry = function(entity, color)
 	}
 end
 
----@param entry StorageCombinator
+---@param entry Save.Combinators.Entry
 M.addEntry = function(entry)
 	storage.combinators[entry.entity.unit_number] = entry
 end
@@ -42,7 +42,7 @@ M.removeEntry = function(id)
 end
 
 ---@param entity LuaEntity
----@return StorageCombinator?
+---@return Save.Combinators.Entry?
 M.getEntry = function(entity)
 	return storage.combinators[entity.unit_number]
 end

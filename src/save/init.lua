@@ -1,5 +1,5 @@
 ---@class Save
----@field combinators SaveCombinators
+---@field combinators Save.Combinators
 local M = {
 	combinators = require("save.combinators"),
 }
