@@ -26,6 +26,9 @@ local M = {
 		tool = prefix .. "color-tool",
 		input = prefix .. "color-tool-input",
 	},
+	gui = {
+		prefix = prefix .. "gui-",
+	},
 	sprite = {
 		directions = {
 			[defines.direction.north] = "north",

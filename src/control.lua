@@ -2,7 +2,7 @@ local utils = require("utils")
 local overlay = require("overlay")
 local const = require("constants")
 local save = require("save")
-local gui = require("gui")
+local gui = require("gui.init")
 require("dev")
 
 log("-- loaded --")
@@ -11,10 +11,10 @@ script.on_init(save.init)
 script.on_configuration_changed(save.init)
 
 script.on_load(function()
-	log("Storage(" .. table_size(storage.combinators) .. "): " .. serpent.block(storage, {
-		sparse = true,
-		refcomment = true,
-	}))
+	-- log("Storage(" .. table_size(storage.combinators) .. "): " .. serpent.block(storage, {
+	-- 	sparse = true,
+	-- 	refcomment = true,
+	-- }))
 end)
 script.on_nth_tick(10, function()
 	script.on_nth_tick(10, nil)
@@ -25,7 +25,7 @@ script.on_nth_tick(10, function()
 		return
 	end
 
-	gui.open(player)
+	-- gui.open(player)
 end)
 
 script.on_event(defines.events.on_player_rotated_entity, function(event)
