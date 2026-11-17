@@ -14,6 +14,6 @@ script.on_event(defines.events.on_udp_packet_received, function(event)
 		return
 	end
 
-	log("dev: reloading mods")
+	log("---- dev: reloading mods ----\n")
 	game.reload_mods()
 end)
