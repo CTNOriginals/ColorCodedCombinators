@@ -10,7 +10,7 @@ run: ##@run Run factorio
 	$(FACTORIO_EXE) $(FACTORIO_ARGS)
 
 deploy: ##@run Deploy the src files to the factorio mods folder
-	@echo Deploying $(PROJECT_NAME) \($(VERSION)\) to $(PROJECT_DEST)
+	@echo Deploying $(PROJECT_NAME) \($(CURRENT_VERSION_PATCH)\) to $(PROJECT_DEST)
 	rm -rf "$(PROJECT_DEST)"
 	mkdir -p "$(PROJECT_DEST)"
 	cp -r ./src/** "$(PROJECT_DEST)"
