@@ -1,7 +1,7 @@
 # Filters factorio-current.log down to the lines logged by one mod.
-# Usage: awk -v mod="__mod-name__" -f mod-log.awk
+# Usage: awk -v mod="mod-name" -v version="vx.x.x" -f mod-log.awk
 
-BEGIN { prefix = "Script @" mod "/"; dim = "\033[2m"; reset = "\033[0m" }
+BEGIN { prefix = "Script @__" mod "__/"; dim = "\033[2m"; reset = "\033[0m" }
 
 # Every new log entry starts with a timestamp; continuation lines do not
 /^ *[0-9]+\.[0-9]+ / {
@@ -10,7 +10,7 @@ BEGIN { prefix = "Script @" mod "/"; dim = "\033[2m"; reset = "\033[0m" }
 	# Header line: "   0.000 2026-11-16 00:03:15; Factorio ..."
 	if ($1 == "0.000" && $2 ~ /^[0-9]+-/ && $3 ~ /;$/) {
 		sub(/;$/, "", $3)
-		printf "\n%s--- game started %s ---%s\n", dim, $3, reset
+		printf "\n%s--- %s (%s) %s ---%s\n", dim, mod, version, $3, reset
 		fflush()
 		next
 	}

@@ -13,10 +13,11 @@ deploy: ##@run Deploy the src files to the factorio mods folder
 	rm -rf "$(PROJECT_DEST)"
 	mkdir -p "$(PROJECT_DEST)"
 	cp -r ./src/** "$(PROJECT_DEST)"
-	sed -i 's/\$$(VERSION)/$(VERSION)/' "$(PROJECT_DEST)/info.json"
+	sed -i 's/\$$(VERSION)/$(CURRENT_VERSION_PATCH)/' "$(PROJECT_DEST)/info.json"
 
 log: ##@run Follow the factorio log and print only the lines logged by this mod
-	@tail -n +1 -F "$(FACTORIO_LOG)" 2>/dev/null | awk -v mod="__$(PROJECT_NAME)__" -f scripts/mod-log.awk
+	@tail -n +1 -F "$(FACTORIO_LOG)" 2>/dev/null | \
+		awk -v mod="$(PROJECT_NAME)" -v version="v$(CURRENT_VERSION_PATCH)" -f scripts/mod-log.awk
 
 watch: ##@run Watch the src files for changes and re-deploy and run once they do (requires wgo)
 	wgo -dir ./src make deploy :: make run
