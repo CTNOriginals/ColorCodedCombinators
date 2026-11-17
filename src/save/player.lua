@@ -76,6 +76,7 @@ M.getOrCreate = function(playerId)
 		if not entry then
 			error("unable to find player by id/name: " .. playerId)
 		end
+		M.add(entry)
 	end
 
 	return entry

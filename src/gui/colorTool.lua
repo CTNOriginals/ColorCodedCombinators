@@ -3,8 +3,8 @@ local utils = require("utils")
 
 local M = {}
 
----@alias onGuiEvents defines.events.on_gui_value_changed
----| defines.events.on_gui_text_changed
+---@alias onGuiEvents EventData.on_gui_value_changed
+---| EventData.on_gui_text_changed
 
 ---@type table<string, fun(event: onGuiEvents)>
 M.handlers = {}
@@ -111,13 +111,14 @@ M.open = function(entry)
 			name = M.getName(entry, row, "slider"),
 			minimum_value = 0,
 			maximum_value = 1,
-			value_step = 0.01,
+			value_step = 0.001,
+			value = val,
 		})
-		local value = row.add({
+		local text = row.add({
 			type = "textfield",
 			name = M.getName(entry, row, "value"),
 			numeric = true,
-			text = tostring(val),
+			text = tostring(math.floor(val * 255)),
 		})
 
 		local total = 200
@@ -139,8 +140,31 @@ M.open = function(entry)
 		slider.style.vertical_align = "center"
 		slider.style.horizontal_align = "center"
 
-		value.style.width = total * ratios.value
-		value.style.height = 20
+		text.style.width = total * ratios.value
+		text.style.height = 20
+
+		M.handlers[slider.name] = function(event)
+			local newVal = event.element.slider_value
+			entry.colorTool.color[name] = newVal
+			text.text = tostring(math.floor(newVal * 255))
+			color.style.color = entry.colorTool.color
+		end
+		M.handlers[text.name] = function(event)
+			local newVal = tonumber(event.element.text)
+			if not newVal then
+				newVal = 0
+			elseif newVal > 255 then
+				newVal = 255
+			elseif newVal < 0 then
+				newVal = 0
+			end
+			text.text = tostring(newVal)
+
+			newVal = newVal / 255
+			entry.colorTool.color[name] = newVal
+			slider.slider_value = newVal
+			color.style.color = entry.colorTool.color
+		end
 	end
 
 	recurse(frame, function(element, depth)

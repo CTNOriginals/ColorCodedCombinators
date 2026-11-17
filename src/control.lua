@@ -11,7 +11,7 @@ script.on_init(save.init)
 script.on_configuration_changed(save.init)
 
 script.on_load(function()
-	-- log("Storage(" .. table_size(storage.combinators) .. "): " .. serpent.block(storage, {
+	-- log("Storage(" .. table_size(storage.combinators) .. "): " .. serpent.line(storage, {
 	-- 	sparse = true,
 	-- 	refcomment = true,
 	-- }))
