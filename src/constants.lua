@@ -6,11 +6,13 @@
 ---@field selector T
 ---@field constant T
 
+local prefix = "ccc-"
+
 local M = {
 	---@type CombinatorType[]
 	combinatorTypes = { "decider", "arithmetic", "constant", "selector" },
 	entity = {
-		prefix = "ccc-",
+		prefix = prefix,
 		---@type Combinators<string>
 		combinators = {
 			decider = "decider-combinator",
@@ -20,8 +22,9 @@ local M = {
 		},
 	},
 	shortcut = {
-		name = "ccc-color-tool",
-		tool = "ccc-color-tool",
+		name = prefix .. "color-tool",
+		tool = prefix .. "color-tool",
+		input = prefix .. "color-tool-input",
 	},
 	sprite = {
 		directions = {

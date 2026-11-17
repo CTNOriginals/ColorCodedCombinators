@@ -30,9 +30,17 @@ data:extend({
 		alt_select = make_select_mode({ r = 1, g = 0, b = 0 }),
 	},
 	{
+		type = "custom-input",
+		name = const.shortcut.input,
+		key_sequence = "C",
+		action = "spawn-item",
+		item_to_spawn = const.shortcut.tool,
+	},
+	{
 		type = "shortcut",
 		name = const.shortcut.name,
 		action = "spawn-item",
+		associated_control_input = const.shortcut.input,
 		item_to_spawn = const.shortcut.tool,
 		icon = "__base__/graphics/icons/shortcut-toolbar/mip/new-blueprint-x56.png",
 		icon_size = 56,
