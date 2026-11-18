@@ -18,6 +18,7 @@ Give any combinator a custom color using a selection tool.
 
 ## Development
 
+- Clone with submodules: `git clone --recursive https://github.com/CTNOriginals/ColorCodedCombinators.git`
 - Copy `.env.example` to `.env` and fill in the paths
 - Run `make help` to see the available commands
 
