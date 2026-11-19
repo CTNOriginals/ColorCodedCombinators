@@ -4,7 +4,7 @@ local M = {
 	colorTool = require("runtime.gui.colorTool"),
 }
 
----@param event EventData.on_gui_click | EventData.on_gui_value_changed | EventData.on_gui_text_changed
+---@param event OnGuiEvents
 local function handleGuiEvent(event)
 	for _, module in pairs(M) do
 		if module.handlers and module.handlers[event.element.name] then

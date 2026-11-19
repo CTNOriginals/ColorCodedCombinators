@@ -1,5 +1,9 @@
 ---@alias CombinatorType 'decider' | 'arithmetic' | 'selector' | 'constant'
 
+---@alias OnGuiEvents EventData.on_gui_value_changed
+---| EventData.on_gui_text_changed
+---| EventData.on_gui_click
+
 local M = {}
 
 M.prefix = "ccc-"
