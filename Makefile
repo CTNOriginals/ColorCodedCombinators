@@ -1,5 +1,5 @@
 -include .env
-include ./.make/base.mk
+include ./.make/main.mk
 
 FACTORIO_UDP_PORT?=34250
 FACTORIO_ARGS:=--load-game $(FACTORIO_DEV_SAVE) --cache-sprite-atlas --enable-lua-udp $(FACTORIO_UDP_PORT)
@@ -10,11 +10,11 @@ run: ##@run Run factorio
 	$(FACTORIO_EXE) $(FACTORIO_ARGS)
 
 deploy: ##@run Deploy the src files to the factorio mods folder
-	@echo Deploying $(PROJECT_NAME) \($(CURRENT_VERSION_PATCH)\) to $(PROJECT_DEST)
+	@echo Deploying $(PROJECT_NAME) \($(VERSION)\) to $(PROJECT_DEST)
 	rm -rf "$(PROJECT_DEST)"
 	mkdir -p "$(PROJECT_DEST)"
 	cp -r ./src/** "$(PROJECT_DEST)"
-	sed -i 's/\$$(VERSION)/$(CURRENT_VERSION_PATCH)/' "$(PROJECT_DEST)/info.json"
+	sed -i 's/\$$(VERSION)/$(VERSION)/' "$(PROJECT_DEST)/info.json"
 
 log: ##@run Follow the factorio log and print only the lines logged by this mod
 	@tail -n +1 -F "$(FACTORIO_LOG)" 2>/dev/null | \
