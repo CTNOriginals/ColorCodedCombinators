@@ -1,5 +1,4 @@
 local utils = require("shared.utils")
-local const = require("shared.constants")
 
 ---@class Save.Combinators.Entry
 ---@field type CombinatorType

@@ -38,7 +38,6 @@ M.draw = function(entity)
 	})
 
 	entry.render = render
-	-- log("drew entry " .. entry.type .. "(" .. entry.entity.unit_number .. "): " .. serpent.line(entry.color))
 end
 
 ---@param entity LuaEntity the combinator

@@ -10,31 +10,6 @@ local M = {}
 ---@type table<string, fun(event: onGuiEvents)>
 M.handlers = {}
 
----@param element LuaGuiElement
----@param fn fun(element: LuaGuiElement, depth: integer)
----@param dir 'down'|'up'
----@param depth integer?
-local function recurse(element, fn, dir, depth)
-	if not depth then
-		depth = 0
-	end
-
-	if not element then
-		return
-	end
-
-	fn(element, depth)
-
-	local next = element.children
-	if dir == "up" then
-		next = { element.parent }
-	end
-
-	for _, child in pairs(next) do
-		recurse(child, fn, dir, depth + 1)
-	end
-end
-
 ---@param entry Save.Player.Entry
 ---@param parent LuaGuiElement?
 ---@return string
@@ -132,17 +107,9 @@ M.open = function(entry)
 
 		row.style.vertical_align = "center"
 
-		-- label.style.font_color = utils.NewColor(0, 1, 0, 1)
-		-- local fontColor = utils.NewColor(0, 0, 0, 1)
-		-- if channel ~= "a" then
-		-- 	fontColor[channel] = 1
-		-- else
-		-- 	fontColor = utils.NewColor(1, 1, 1, 1)
-		-- end
 		label.style.width = total * ratios.label
 		label.style.horizontal_align = "center"
 		label.style.vertical_align = "center"
-		-- label.style.font_color = fontColor
 
 		slider.style.width = total * ratios.slider
 		slider.style.top_margin = 2
@@ -183,7 +150,6 @@ M.open = function(entry)
 		style = "confirm_button",
 	})
 
-	-- submit.spr
 	submit.style.horizontal_align = "center"
 	submit.style.width = 230
 	submit.style.height = 30
@@ -194,10 +160,6 @@ M.open = function(entry)
 			entry.player.cursor_stack.set_stack({ name = const.shortcut.tool })
 		end
 	end
-
-	-- recurse(frame, function(element, depth)
-	-- 	log(element.name)
-	-- end, "down")
 end
 
 ---@param entry Save.Player.Entry

@@ -6,8 +6,6 @@ local gui = require("runtime.gui.init")
 local events = require("runtime.eventHandler")
 require("runtime.dev")
 
-log("-- loaded --")
-
 script.on_init(save.init)
 script.on_configuration_changed(save.init)
 
@@ -17,17 +15,6 @@ script.on_load(function()
 	-- 	refcomment = true,
 	-- }))
 end)
--- script.on_nth_tick(10, function()
--- 	script.on_nth_tick(10, nil)
---
--- 	local player = game.get_player(1)
--- 	if not player then
--- 		log("no player")
--- 		return
--- 	end
---
--- 	gui.colorTool.open(save.players.getOrCreate(player.name))
--- end)
 
 ---@param event EventData.on_player_rotated_entity
 local function onPlayerRotateEntity(event)

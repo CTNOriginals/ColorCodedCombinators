@@ -44,7 +44,4 @@ M.gui.sliderStyle = M.gui.prefix .. "slider-"
 
 M.reloadPayload = M.prefix .. "reload"
 
--- Visualise the result
--- log(serpent.block(M, { sparse = true }))
-
 return M

@@ -1,4 +1,3 @@
-local const = require("shared.constants")
 local events = require("runtime.eventHandler")
 
 local M = {
