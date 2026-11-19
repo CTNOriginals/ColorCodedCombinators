@@ -4,9 +4,8 @@ local save = require("runtime.save.init")
 
 local M = {}
 
----@param entity LuaEntity the decider combinator
+---@param entity LuaEntity the combinator
 M.clear = function(entity)
-	---@type Save.Combinators.Entry?
 	local entry = save.combinators.get(entity)
 	if not entry then
 		return
@@ -19,18 +18,17 @@ M.clear = function(entity)
 	entry.render = nil
 end
 
----@param entity LuaEntity the decider combinator
+---@param entity LuaEntity the combinator
 M.draw = function(entity)
-	---@type Save.Combinators.Entry?
 	local entry = save.combinators.get(entity)
-	local combType = utils.GetCombinatorType(entity)
-	if not entry or not combType then
+
+	if not entry then
 		return
 	end
 
 	M.clear(entity)
 
-	local name = utils.GetCombinatorEntityName(combType, { const.directionToName[entity.direction] })
+	local name = utils.GetCombinatorEntityName(entry.type, { const.directionToName[entity.direction] })
 	local render = rendering.draw_sprite({
 		sprite = name,
 		target = entity,
@@ -40,18 +38,19 @@ M.draw = function(entity)
 	})
 
 	entry.render = render
-	-- log("drew entry " .. combType .. "(" .. entry.entity.unit_number .. "): " .. serpent.line(entry.color))
+	-- log("drew entry " .. entry.type .. "(" .. entry.entity.unit_number .. "): " .. serpent.line(entry.color))
 end
 
----@param entity LuaEntity the decider combinator
+---@param entity LuaEntity the combinator
 ---@param color Color e.g. {r = 1, g = 0, b = 0}
 M.setColor = function(entity, color)
-	local combType = utils.GetCombinatorType(entity)
-	if not entity or not entity.valid or not combType then
+	if not entity or not entity.valid or not utils.GetCombinatorType(entity) then
 		return
 	end
 
-	---@type Save.Combinators.Entry?
+	-- copy, so later changes to the passed table do not affect the stored color
+	color = utils.NewColor(color.r, color.g, color.b, color.a)
+
 	local entry = save.combinators.get(entity)
 
 	if entry then
@@ -59,9 +58,8 @@ M.setColor = function(entity, color)
 	else
 		entry = save.combinators.create(entity, color)
 		save.combinators.add(entry)
+		script.register_on_object_destroyed(entity)
 	end
-
-	script.register_on_object_destroyed(entity)
 
 	M.draw(entity)
 end

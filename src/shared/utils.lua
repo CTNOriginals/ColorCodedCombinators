@@ -17,7 +17,7 @@ M.GetCombinatorEntityName = function(type, trail)
 end
 
 ---@param entity LuaEntity
----@return string?
+---@return CombinatorType?
 M.GetCombinatorType = function(entity)
 	for type, name in pairs(const.combinatorEntities) do
 		if entity.name == name then
