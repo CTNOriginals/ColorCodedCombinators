@@ -41,9 +41,10 @@ events.register(defines.events.on_player_rotated_entity, onPlayerRotateEntity)
 
 ---@param event EventData.on_object_destroyed
 local function onObjectDestroyed(event)
-	if not event.type or event.type == defines.target_type.entity then
+	if event.type ~= defines.target_type.entity then
 		return
 	end
+
 	save.combinators.remove(event.useful_id)
 end
 events.register(defines.events.on_object_destroyed, onObjectDestroyed)
