@@ -3,6 +3,7 @@ local overlay = require("runtime.overlay")
 local const = require("shared.constants")
 local save = require("runtime.save.init")
 local gui = require("runtime.gui.init")
+local events = require("runtime.eventHandler")
 require("runtime.dev")
 
 log("-- loaded --")
@@ -28,20 +29,24 @@ end)
 -- 	gui.colorTool.open(save.players.getOrCreate(player.name))
 -- end)
 
-script.on_event(defines.events.on_player_rotated_entity, function(event)
+---@param event EventData.on_player_rotated_entity
+local function onPlayerRotateEntity(event)
 	if not utils.GetCombinatorType(event.entity) or not save.combinators.get(event.entity) then
 		return
 	end
 
 	overlay.draw(event.entity)
-end)
+end
+events.register(defines.events.on_player_rotated_entity, onPlayerRotateEntity)
 
-script.on_event(defines.events.on_object_destroyed, function(event)
-	if not event.type == defines.target_type.entity then
+---@param event EventData.on_object_destroyed
+local function onObjectDestroyed(event)
+	if not event.type or event.type == defines.target_type.entity then
 		return
 	end
 	save.combinators.remove(event.useful_id)
-end)
+end
+events.register(defines.events.on_object_destroyed, onObjectDestroyed)
 
 ---@param event EventData.on_player_selected_area | EventData.on_player_alt_selected_area
 local function onToolSelected(event)
@@ -68,5 +73,5 @@ local function onToolSelected(event)
 	end
 end
 
-script.on_event(defines.events.on_player_selected_area, onToolSelected)
-script.on_event(defines.events.on_player_alt_selected_area, onToolSelected)
+events.register(defines.events.on_player_selected_area, onToolSelected)
+events.register(defines.events.on_player_alt_selected_area, onToolSelected)

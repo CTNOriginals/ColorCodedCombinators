@@ -3,6 +3,7 @@
 -- TODO: do not ship this in a release
 
 local const = require("shared.constants")
+local events = require("runtime.eventHandler")
 
 local RELOAD_PAYLOAD = const.reloadPayload
 
@@ -11,11 +12,13 @@ script.on_nth_tick(30, function()
 	helpers.recv_udp()
 end)
 
-script.on_event(defines.events.on_udp_packet_received, function(event)
+---@param event EventData.on_udp_packet_received
+local function onUdpPacketReceived(event)
 	if event.payload ~= RELOAD_PAYLOAD then
 		return
 	end
 
 	log("---- dev: reloading mods ----\n")
 	game.reload_mods()
-end)
+end
+events.register(defines.events.on_udp_packet_received, onUdpPacketReceived)
