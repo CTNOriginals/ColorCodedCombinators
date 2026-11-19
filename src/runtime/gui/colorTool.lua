@@ -1,13 +1,22 @@
 local const = require("shared.constants")
-local utils = require("shared.utils")
 
 local M = {}
 
----@alias onGuiEvents EventData.on_gui_value_changed
----| EventData.on_gui_text_changed
----| EventData.on_gui_click
+---@class GuiElementTemplate
+---@enum (key) M.templates
 
----@type table<string, fun(event: onGuiEvents)>
+--TODO: WIP
+---@type table<string, GuiElementTemplate>
+M.elementTemplates = {
+	colorSlider = {
+		---@type LuaGuiElement.add_param.slider
+		element = {
+			type = "slider",
+		},
+	},
+}
+
+---@type table<string, fun(event: OnGuiEvents)>
 M.handlers = {}
 
 ---@param entry Save.Player.Entry
@@ -53,22 +62,22 @@ M.open = function(entry)
 		direction = "vertical",
 	})
 
-	local color = section.add({
+	local preview = section.add({
 		type = "progressbar",
 		name = M.getName(entry, section, "sprite"),
 	})
 
-	color.value = 1
-	color.style.bar_width = 25
-	color.style.vertically_stretchable = true
-	color.style.horizontally_stretchable = true
+	preview.value = 1
+	preview.style.bar_width = 25
+	preview.style.vertically_stretchable = true
+	preview.style.horizontally_stretchable = true
 
-	color.style.vertical_align = "center"
-	color.style.horizontal_align = "center"
-	color.style.width = 208
-	color.style.height = 20
+	preview.style.vertical_align = "center"
+	preview.style.horizontal_align = "center"
+	preview.style.width = 208
+	preview.style.height = 20
 
-	color.style.color = entry.colorTool.color
+	preview.style.color = entry.colorTool.color
 
 	for channel, val in pairs(entry.colorTool.color) do
 		local row = section.add({
@@ -86,6 +95,7 @@ M.open = function(entry)
 			type = "slider",
 			name = M.getName(entry, row, "slider"),
 			style = const.gui.sliderStyle .. channel,
+			tags = { action = M.tags.colorSlider, channel = channel },
 			minimum_value = 0,
 			maximum_value = 1,
 			value_step = 0.001,
@@ -123,7 +133,7 @@ M.open = function(entry)
 			local newVal = event.element.slider_value
 			entry.colorTool.color[channel] = newVal
 			text.text = tostring(math.floor(newVal * 255))
-			color.style.color = entry.colorTool.color
+			preview.style.color = entry.colorTool.color
 		end
 		M.handlers[text.name] = function(event)
 			local newVal = tonumber(event.element.text)
@@ -139,7 +149,7 @@ M.open = function(entry)
 			newVal = newVal / 255
 			entry.colorTool.color[channel] = newVal
 			slider.slider_value = newVal
-			color.style.color = entry.colorTool.color
+			preview.style.color = entry.colorTool.color
 		end
 	end
 
@@ -160,6 +170,8 @@ M.open = function(entry)
 			entry.player.cursor_stack.set_stack({ name = const.shortcut.tool })
 		end
 	end
+
+	log(serpent.block(frame))
 end
 
 ---@param entry Save.Player.Entry
