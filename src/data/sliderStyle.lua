@@ -1,4 +1,4 @@
-local const = require("constants")
+local const = require("shared.constants")
 
 local styles = data.raw["gui-style"].default
 

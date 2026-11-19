@@ -22,11 +22,11 @@ log: ##@run Follow the factorio log and print only the lines logged by this mod
 
 # wgo treats "." in these patterns as a literal dot, so "[^:]*" is used for "anything"
 WATCH_LUA:=^src/[^:]*.lua$$
-WATCH_DATA_DIR:=^src/data/
+WATCH_DATA_DIR:=^src/(data|shared)/
 WATCH_DATA_ENTRY:=^src/(data|settings)(-updates|-final-fixes)?.lua$$
 WATCH_ASSETS:=^src/[^:]*.(json|cfg|png|ogg)$$
 
-reload: deploy ##@run Deploy and reload the mod scripts in the running game (see src/dev.lua)
+reload: deploy ##@run Deploy and reload the mod scripts in the running game (see src/runtime/dev.lua)
 	@bash -c "printf 'ccc-reload' > /dev/udp/127.0.0.1/$(FACTORIO_UDP_PORT)"
 
 # written by watch-runtime to make the restart watcher restart the game

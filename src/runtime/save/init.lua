@@ -6,8 +6,8 @@
 storage = storage
 
 local M = {
-	combinators = require("save.combinators"),
-	players = require("save.player"),
+	combinators = require("runtime.save.combinators"),
+	players = require("runtime.save.player"),
 }
 
 M.init = function()

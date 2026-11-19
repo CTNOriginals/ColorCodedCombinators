@@ -1,7 +1,7 @@
-local const = require("constants")
+local const = require("shared.constants")
 
 local M = {
-	colorTool = require("gui.colorTool"),
+	colorTool = require("runtime.gui.colorTool"),
 }
 
 function handleGuiEvent(event)

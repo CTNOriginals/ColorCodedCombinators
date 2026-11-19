@@ -2,7 +2,7 @@
 -- Requires factorio to be started with --enable-lua-udp (see FACTORIO_ARGS in the Makefile).
 -- TODO: do not ship this in a release
 
-local const = require("constants")
+local const = require("shared.constants")
 
 local RELOAD_PAYLOAD = const.reloadPayload
 

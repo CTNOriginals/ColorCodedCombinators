@@ -1,6 +1,6 @@
-local const = require("constants")
-local utils = require("utils")
-local save = require("save.init")
+local const = require("shared.constants")
+local utils = require("shared.utils")
+local save = require("runtime.save.init")
 
 local M = {}
 

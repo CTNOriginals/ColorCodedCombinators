@@ -1,5 +1,5 @@
-local utils = require("utils")
-local const = require("constants")
+local utils = require("shared.utils")
+local const = require("shared.constants")
 
 ---@param sprite Sprite one direction of the decider's Sprite4Way (e.g. decider.sprites.north)
 ---@return Sprite main_layer copy of the non-shadow layer

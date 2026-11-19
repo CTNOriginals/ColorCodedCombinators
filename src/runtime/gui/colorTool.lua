@@ -1,5 +1,5 @@
-local const = require("constants")
-local utils = require("utils")
+local const = require("shared.constants")
+local utils = require("shared.utils")
 
 local M = {}
 

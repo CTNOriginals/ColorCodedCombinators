@@ -1,9 +1,9 @@
-local utils = require("utils")
-local overlay = require("overlay")
-local const = require("constants")
-local save = require("save.init")
-local gui = require("gui.init")
-require("dev")
+local utils = require("shared.utils")
+local overlay = require("runtime.overlay")
+local const = require("shared.constants")
+local save = require("runtime.save.init")
+local gui = require("runtime.gui.init")
+require("runtime.dev")
 
 log("-- loaded --")
 

@@ -1,4 +1,4 @@
-local utils = require("utils")
+local utils = require("shared.utils")
 
 ---@class Save.Player.ColorTool
 ---@field color Color
