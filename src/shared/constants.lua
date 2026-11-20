@@ -44,6 +44,13 @@ M.gui.prefix = M.prefix .. "gui-"
 M.gui.colorTool = M.gui.prefix .. "color-tool-"
 M.gui.sliderStyle = M.gui.prefix .. "slider-"
 
+-- Meta
+
+M.metatables = {}
+M.metatables.prefix = M.prefix .. "metatables"
+M.metatables.names = {}
+M.metatables.names.guiTemplate = M.metatables.prefix .. "gui-template"
+
 -- Dev
 
 M.reloadPayload = M.prefix .. "reload"
