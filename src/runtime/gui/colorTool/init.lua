@@ -4,7 +4,7 @@ local M = {
 	templates = require("runtime.gui.colorTool.templates"),
 }
 
----@type table<string, fun(event: OnGuiEvents)>
+---@type table<string, fun(event: OnGuiEvent.Data)>
 M.handlers = {}
 
 ---@type fun(entry: Save.Player.Entry): LuaGuiElement?
@@ -65,6 +65,7 @@ M.open = function(entry)
 			definition = {
 				style = const.gui.sliderStyle .. channel,
 				value = val,
+				tags = { channel = channel },
 			},
 			style = {
 				width = content.width * content.ratios.slider,
@@ -79,12 +80,12 @@ M.open = function(entry)
 			},
 		})
 
-		M.handlers[slider.name] = function(event)
-			local newVal = event.element.slider_value
-			entry.colorTool.color[channel] = newVal
-			field.text = tostring(math.floor(newVal * 255))
-			preview.style.color = entry.colorTool.color
-		end
+		-- M.handlers[slider.name] = function(event)
+		-- 	local newVal = event.element.slider_value
+		-- 	entry.colorTool.color[channel] = newVal
+		-- 	field.text = tostring(math.floor(newVal * 255))
+		-- 	preview.style.color = entry.colorTool.color
+		-- end
 		M.handlers[field.name] = function(event)
 			local newVal = tonumber(event.element.text)
 			if not newVal then

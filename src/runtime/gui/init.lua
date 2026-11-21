@@ -1,10 +1,23 @@
 local events = require("runtime.eventHandler")
+local save = require("runtime.save.init")
 
 local M = {
 	ui = {
 		colorTool = require("runtime.gui.colorTool.init"),
 	},
 }
+
+---@enum (key) OnGuiEvent.Type
+M.guiEventNames = {
+	on_gui_click = defines.events.on_gui_click,
+	on_gui_value_changed = defines.events.on_gui_value_changed,
+	on_gui_text_changed = defines.events.on_gui_text_changed,
+}
+
+---@alias OnGuiEvent.Data
+---| EventData.on_gui_click
+---| EventData.on_gui_value_changed
+---| EventData.on_gui_text_changed
 
 ---@type table<string, GuiTemplate>
 M.templateRegistry = {}
@@ -16,14 +29,31 @@ for name, gui in pairs(M.ui) do
 
 		if template.events then
 			for eventType, fn in pairs(template.events) do
+				---@type fun(event: OnGuiEvent.Data)
+				local handler = function(event)
+					local entry = save.players.get(event.player_index)
+
+					if not entry or not entry.player.valid then
+						log("Invalid player entry or id: " .. event.player_index)
+						return
+					end
+
+					-- log(eventType .. ": " .. event.name .. " " .. event.element.name)
+					fn(event, {
+						entry = entry,
+						template = template,
+						tags = event.element.tags or {},
+					})
+				end
+
 				log(eventType)
-				events.register(defines.events[eventType], fn)
+				events.register(defines.events[eventType], handler)
 			end
 		end
 	end
 end
 
----@param event OnGuiEvents
+---@param event OnGuiEvent.Data
 local function handleGuiEvent(event)
 	for _, module in pairs(M.ui) do
 		if module.handlers and module.handlers[event.element.name] then

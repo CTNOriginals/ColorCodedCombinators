@@ -31,7 +31,7 @@ local function onToolSelected(event)
 	local playerEntry = save.players.getOrCreate(event.player_index)
 
 	if #event.entities == 0 then
-		gui.colorTool.open(playerEntry)
+		gui.ui.colorTool.open(playerEntry)
 		playerEntry.player.clear_cursor()
 		return
 	end

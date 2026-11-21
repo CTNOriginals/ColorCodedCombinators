@@ -7,12 +7,15 @@ local util = require("util")
 
 ---@class GuiTemplate.Context
 ---@field entry Save.Player.Entry
+---@field template GuiTemplate
 ---@field tags Tags
 
----@class GuiTemplate.Events
----@field on_gui_click fun(event: EventData.on_gui_click, ctx: GuiTemplate.Context)?
----@field on_gui_value_changed fun(event: EventData.on_gui_value_changed, ctx: GuiTemplate.Context)?
----@field on_gui_text_changed fun(event: EventData.on_gui_text_changed, ctx: GuiTemplate.Context)?
+---@alias GuiTemplate.Events.Callback<T> fun(event: T, ctx: GuiTemplate.Context)
+
+---@class GuiTemplate.Events: {[OnGuiEvent.Type]: GuiTemplate.Events.Callback<OnGuiEvent.Data>}
+---@field on_gui_click GuiTemplate.Events.Callback<EventData.on_gui_click>?
+---@field on_gui_value_changed GuiTemplate.Events.Callback<EventData.on_gui_value_changed>?
+---@field on_gui_text_changed GuiTemplate.Events.Callback<EventData.on_gui_text_changed>?
 
 ---@class GuiTemplate.Base
 ---@field properties GuiTemplate.Definition.Partial?
@@ -60,7 +63,7 @@ function class:build(parent, overrides)
 	local element = parent.add(template.definition)
 
 	element.name = self:name(parent, template.definition.name)
-	log(element.name)
+	-- log(element.name)
 
 	for key, value in pairs(template.properties or {}) do
 		element[key] = value
