@@ -19,47 +19,36 @@ script.on_nth_tick(10, function()
 	-- save.init()
 end)
 
----@param event EventData.on_player_rotated_entity
-local function onPlayerRotateEntity(event)
-	if not utils.GetCombinatorType(event.entity) or not save.combinators.get(event.entity) then
-		return
-	end
-
-	overlay.draw(event.entity)
-end
-events.register(defines.events.on_player_rotated_entity, onPlayerRotateEntity)
-
----@param event EventData.on_object_destroyed
-local function onObjectDestroyed(event)
-	if event.type ~= defines.target_type.entity then
-		return
-	end
-
-	save.combinators.remove(event.useful_id)
-end
-events.register(defines.events.on_object_destroyed, onObjectDestroyed)
-
 ---@param event EventData.on_player_selected_area | EventData.on_player_alt_selected_area
 local function onToolSelected(event)
 	if event.item ~= const.shortcut.tool then
 		return
 	end
 
-	local entry = save.players.getOrCreate(event.player_index)
+	local playerEntry = save.players.getOrCreate(event.player_index)
 
 	if #event.entities == 0 then
-		gui.colorTool.open(entry)
-		entry.player.clear_cursor()
+		gui.colorTool.open(playerEntry)
+		playerEntry.player.clear_cursor()
 		return
 	end
 
-	local color = entry.colorTool.color
+	local color = playerEntry.colorTool.color
 
 	for _, entity in pairs(event.entities) do
+		local combEntry = save.combinators.get(entity)
+
 		if event.name == defines.events.on_player_alt_selected_area then
-			overlay.clear(entity)
+			if combEntry then
+				overlay.delete(combEntry)
+			end
 		else
-			overlay.setColor(entity, color)
+			if not combEntry then
+				combEntry = save.combinators.create(entity, color)
+				save.combinators.add(combEntry)
+			end
+
+			overlay.setColor(combEntry, color)
 		end
 	end
 end
