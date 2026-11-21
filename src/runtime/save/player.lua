@@ -1,7 +1,7 @@
 local utils = require("shared.utils")
 
 ---@class Save.Player.ColorTool
----@field color Color
+---@field color Color.struct
 -- TODO: swatches
 
 ---@class Save.Player.Entry
