@@ -10,10 +10,20 @@ script.on_init(save.init)
 script.on_configuration_changed(save.init)
 
 script.on_load(function()
-	-- log("Storage(" .. table_size(storage.combinators) .. "): " .. serpent.line(storage, {
-	-- 	sparse = true,
-	-- 	refcomment = true,
-	-- }))
+	for id, entry in pairs(storage.combinators) do
+		-- local rgba = entry.color.r .. entry.color.g .. entry.color.b .. entry.color.a
+		log(id .. ": " .. serpent.line(entry.color) .. " - " .. entry.type)
+	end
+
+	for id, entry in pairs(storage.players) do
+		log(id .. ": " .. serpent.line(entry.colorTool.color))
+	end
+end)
+
+script.on_nth_tick(10, function()
+	script.on_nth_tick(10, nil)
+	-- storage = {}
+	-- save.init()
 end)
 
 ---@param event EventData.on_player_rotated_entity
