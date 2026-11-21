@@ -35,11 +35,26 @@ end
 
 ---@param entry Save.Combinators.Entry
 M.add = function(entry)
+	script.register_on_object_destroyed(entry.entity)
 	storage.combinators[entry.entity.unit_number] = entry
 end
 
----@param id integer
-M.remove = function(id)
+---@param entry integer|Save.Combinators.Entry
+M.remove = function(entry)
+	local id = entry
+
+	if type(id) ~= "number" then
+		if not entry.entity.valid then
+			error("Received non-valid entity")
+		end
+
+		id = entry.entity.unit_number
+	end
+
+	if not id then
+		error("Received nil id, unable to remove entry")
+	end
+
 	storage.combinators[id] = nil
 end
 
@@ -47,6 +62,22 @@ end
 ---@return Save.Combinators.Entry?
 M.get = function(entity)
 	return storage.combinators[entity.unit_number]
+end
+
+---@type fun(entity: LuaEntity): Save.Combinators.Entry
+M.getOrCreate = function(entity)
+	if not entity.valid then
+		error("Received a non-valid entity")
+	end
+
+	local entry = M.get(entity)
+
+	if not entry then
+		entry = M.create(entity, utils.NewColor(0, 0, 0, 0))
+		M.add(entry)
+	end
+
+	return entry
 end
 
 return M
