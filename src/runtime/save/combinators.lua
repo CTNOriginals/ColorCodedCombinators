@@ -10,6 +10,12 @@ local utils = require("shared.utils")
 
 local M = {}
 
+M.log = function()
+	for id, entry in pairs(storage.combinators) do
+		log(id .. ": " .. serpent.line(entry.color) .. " - " .. entry.type)
+	end
+end
+
 M.init = function()
 	if not storage.combinators then
 		storage.combinators = {}

@@ -13,13 +13,18 @@ local M = {
 	players = players,
 }
 
+M.log = function()
+	M.combinators.log()
+	M.players.log()
+end
+
 M.init = function()
 	for _, mod in pairs(M) do
 		if type(mod) == "table" and mod.init then
 			mod.init()
 		end
 	end
-	log("Storage initialized: " .. serpent.line(storage, { sparse = true }))
+	M.log()
 end
 
 return M

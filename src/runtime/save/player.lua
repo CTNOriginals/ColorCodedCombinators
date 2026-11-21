@@ -12,6 +12,12 @@ local utils = require("shared.utils")
 
 local M = {}
 
+M.log = function()
+	for id, entry in pairs(storage.players) do
+		log(id .. ": " .. serpent.line(entry.colorTool.color))
+	end
+end
+
 local function getPlayerName(playerId)
 	if type(playerId) == "string" then
 		return playerId
