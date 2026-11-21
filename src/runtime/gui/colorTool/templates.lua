@@ -75,7 +75,12 @@ M.slider = template:new({
 	},
 	events = {
 		on_gui_value_changed = function(event, ctx)
-			local val = event.element.slider_value
+			local ele = event.element
+			local val = ele.slider_value
+			local fieldname = M.field:name(ele.parent)
+			-- local sectionname = M.section:name
+			-- local previewname = M.preview:name(ele.parent)
+
 			ctx.entry.colorTool.color[ctx.tags.channel] = val
 		end,
 	},

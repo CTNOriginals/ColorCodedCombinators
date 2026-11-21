@@ -31,6 +31,10 @@ for name, gui in pairs(M.ui) do
 			for eventType, fn in pairs(template.events) do
 				---@type fun(event: OnGuiEvent.Data)
 				local handler = function(event)
+					if not event.element.valid or event.element.tags.template ~= template.id then
+						return
+					end
+
 					local entry = save.players.get(event.player_index)
 
 					if not entry or not entry.player.valid then

@@ -60,10 +60,14 @@ function class:build(parent, overrides)
 	self.id = id
 
 	local template = util.merge({ self, overrides or {} })
+
+	template.definition.tags = template.definition.tags or {}
+	template.definition.tags["template"] = self.id
+
 	local element = parent.add(template.definition)
 
 	element.name = self:name(parent, template.definition.name)
-	-- log(element.name)
+	log(element.name)
 
 	for key, value in pairs(template.properties or {}) do
 		element[key] = value
