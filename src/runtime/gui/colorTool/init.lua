@@ -7,22 +7,11 @@ M.templates = require("runtime.gui.colorTool.templates")
 ---@type table<string, fun(event: OnGuiEvents)>
 M.handlers = {}
 
----@param entry Save.Player.Entry
----@param parent LuaGuiElement?
----@return string
-M.getName = function(entry, parent, ...)
-	local name = const.gui.colorTool .. entry.player.name
-	local trail = { ... }
-
-	if parent then
-		name = parent.name
-	end
-
-	if not trail or #trail == 0 then
-		return name
-	end
-
-	return name .. "-" .. table.concat(trail, "-")
+---@type fun(entry: Save.Player.Entry): LuaGuiElement?
+M.get = function(entry)
+	local screen = entry.player.gui.screen
+	local name = M.templates.frame:name(screen, const.gui.colorTool .. "-" .. entry.player.name)
+	return screen[name]
 end
 
 ---@param entry Save.Player.Entry
@@ -31,9 +20,7 @@ M.open = function(entry)
 		return
 	end
 
-	local frameName = const.gui.colorTool .. "-" .. entry.player.name
-	local playerScreen = entry.player.gui.screen
-	local existing = playerScreen[M.templates.frame:name(playerScreen, frameName)]
+	local existing = M.get(entry)
 	if existing then
 		existing.destroy()
 	end
@@ -47,12 +34,13 @@ M.open = function(entry)
 		},
 	}
 
-	local frame = M.templates.frame:build(entry.player.gui.screen, {
+	M.screen = M.templates.frame:build(entry.player.gui.screen, {
 		definition = {
-			name = frameName,
+			name = const.gui.colorTool .. "-" .. entry.player.name,
 		},
 	})
-	local section = M.templates.section:build(frame)
+
+	local section = M.templates.section:build(M.screen)
 	local preview = M.templates.preview:build(section, {
 		style = {
 			color = entry.colorTool.color,
@@ -115,7 +103,7 @@ M.open = function(entry)
 		end
 	end
 
-	local submit = M.templates.submit:build(frame)
+	local submit = M.templates.submit:build(M.screen)
 
 	M.handlers[submit.name] = function(event)
 		M.close(entry)
@@ -123,13 +111,17 @@ M.open = function(entry)
 			entry.player.cursor_stack.set_stack({ name = const.shortcut.tool })
 		end
 	end
-
-	log(serpent.block(frame))
 end
 
 ---@param entry Save.Player.Entry
 M.close = function(entry)
-	entry.player.gui.screen[M.getName(entry)].destroy()
+	local ui = M.get(entry)
+
+	if not ui then
+		return
+	end
+
+	ui.destroy()
 end
 
 return M
