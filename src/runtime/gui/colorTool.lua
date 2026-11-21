@@ -1,19 +1,18 @@
 local const = require("shared.constants")
+local template = require("runtime.gui.templates")
 
 local M = {}
 
----@class GuiElementTemplate
----@enum (key) M.templates
-
---TODO: WIP
----@type table<string, GuiElementTemplate>
-M.elementTemplates = {
-	colorSlider = {
-		---@type LuaGuiElement.add_param.slider
-		element = {
-			type = "slider",
+---@type table<string, GuiTemplate>
+M.templates = {
+	section = template.class:new({
+		---@type LuaGuiElement.add_param.frame
+		definition = {
+			type = "frame",
+			direction = "vertical",
 		},
-	},
+		style = {},
+	}),
 }
 
 ---@type table<string, fun(event: OnGuiEvents)>
@@ -56,12 +55,14 @@ M.open = function(entry)
 	})
 	frame.auto_center = true
 
-	local section = frame.add({
-		type = "frame",
-		name = M.getName(entry, frame, "section"),
-		direction = "vertical",
-	})
+	-- local section = frame.add({
+	-- 	type = "frame",
+	-- 	name = M.getName(entry, frame, "section"),
+	-- 	direction = "vertical",
+	-- })
+	-- local section =
 
+	local section = M.templates.section:build(frame)
 	local preview = section.add({
 		type = "progressbar",
 		name = M.getName(entry, section, "sprite"),

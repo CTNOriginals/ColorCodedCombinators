@@ -1,31 +1,27 @@
 local const = require("shared.constants")
 local M = {}
 
----@class M.TTemplate
+---@class GuiTemplate
 local templateClass = {
-	---@type LuaGuiElement.add_param
-	definition = {
-		type = "empty-widget",
-	},
-
+	definition = {}, --[[@as LuaGuiElement.add_param]]
 	style = {}, --[[@as LuaStyle]]
 }
 
-M.metatable = setmetatable(templateClass, {
-	__index = templateClass,
-})
+templateClass.__index = templateClass
+script.register_metatable(const.metatables.names.guiTemplate, templateClass)
 
-script.register_metatable(const.metatables.names.guiTemplate, M.metatable)
+M.class = templateClass
 
----@type fun(self: M.TTemplate, instance: M.TTemplate): M.TTemplate
+---@type fun(self: GuiTemplate, instance: GuiTemplate): GuiTemplate
 function templateClass:new(instance)
-	instance = self
-	return instance
+	instance = instance or {}
+	return setmetatable(instance, self)
 end
 
----@type fun(self: M.TTemplate, parent: LuaGuiElement): LuaGuiElement
+---@type fun(self: GuiTemplate, parent: LuaGuiElement): LuaGuiElement
 function templateClass:build(parent)
 	local element = parent.add(self.definition)
+	element.name = parent.name .. "-" .. element.type
 
 	for style, value in pairs(self.style) do
 		element.style[style] = value
