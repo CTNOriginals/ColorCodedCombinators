@@ -41,6 +41,64 @@ M.templates = {
 			height = 20,
 		},
 	}),
+	row = template.class:new({
+		---@type LuaGuiElement.add_param.flow
+		definition = {
+			type = "flow",
+			direction = "horizontal",
+		},
+		style = {
+			vertical_align = "center",
+		},
+	}),
+	label = template.class:new({
+		---@type LuaGuiElement.add_param
+		definition = {
+			type = "label",
+		},
+		style = {
+			horizontal_align = "center",
+			vertical_align = "center",
+		},
+	}),
+	slider = template.class:new({
+		---@type LuaGuiElement.add_param.slider
+		definition = {
+			type = "slider",
+			minimum_value = 0,
+			maximum_value = 1,
+			value_step = 0.001,
+		},
+		style = {
+			top_margin = 2,
+			vertical_align = "center",
+			horizontal_align = "center",
+		},
+	}),
+	field = template.class:new({
+		---@type LuaGuiElement.add_param.textfield
+		definition = {
+			type = "textfield",
+			numeric = true,
+		},
+		style = {
+			height = 20,
+		},
+	}),
+	submit = template.class:new({
+		---@type LuaGuiElement.add_param.button
+		definition = {
+			type = "button",
+			name = "submit",
+			caption = { "gui.color-tool-submit" },
+			style = "confirm_button",
+		},
+		style = {
+			horizontal_align = "center",
+			width = 230,
+			height = 30,
+		},
+	}),
 }
 
 ---@type table<string, fun(event: OnGuiEvents)>
@@ -77,6 +135,15 @@ M.open = function(entry)
 		existing.destroy()
 	end
 
+	local content = {
+		width = 200,
+		ratios = {
+			label = 0.1,
+			slider = 0.7,
+			field = 0.2,
+		},
+	}
+
 	local frame = M.templates.frame:build(entry.player.gui.screen, {
 		definition = {
 			name = frameName,
@@ -90,61 +157,44 @@ M.open = function(entry)
 	})
 
 	for channel, val in pairs(entry.colorTool.color) do
-		local row = section.add({
-			type = "flow",
-			name = M.getName(entry, section, channel, "row"),
-			direction = "horizontal",
+		local row = M.templates.row:build(section, {
+			definition = {
+				name = channel,
+			},
 		})
-
-		local label = row.add({
-			type = "label",
-			name = M.getName(entry, row, "label"),
-			caption = string.upper(channel),
+		local label = M.templates.label:build(row, {
+			definition = {
+				caption = string.upper(channel),
+			},
+			style = {
+				width = content.width * content.ratios.label,
+			},
 		})
-		local slider = row.add({
-			type = "slider",
-			name = M.getName(entry, row, "slider"),
-			style = const.gui.sliderStyle .. channel,
-			minimum_value = 0,
-			maximum_value = 1,
-			value_step = 0.001,
-			value = val,
+		local slider = M.templates.slider:build(row, {
+			definition = {
+				style = const.gui.sliderStyle .. channel,
+				value = val,
+			},
+			style = {
+				width = content.width * content.ratios.slider,
+			},
 		})
-		local text = row.add({
-			type = "textfield",
-			name = M.getName(entry, row, "value"),
-			numeric = true,
-			text = tostring(math.floor(val * 255)),
+		local field = M.templates.field:build(row, {
+			definition = {
+				text = tostring(math.floor(val * 255)),
+			},
+			style = {
+				width = content.width * content.ratios.field,
+			},
 		})
-
-		local total = 200
-		local ratios = {
-			label = 0.1,
-			slider = 0.7,
-			value = 0.2,
-		}
-
-		row.style.vertical_align = "center"
-
-		label.style.width = total * ratios.label
-		label.style.horizontal_align = "center"
-		label.style.vertical_align = "center"
-
-		slider.style.width = total * ratios.slider
-		slider.style.top_margin = 2
-		slider.style.vertical_align = "center"
-		slider.style.horizontal_align = "center"
-
-		text.style.width = total * ratios.value
-		text.style.height = 20
 
 		M.handlers[slider.name] = function(event)
 			local newVal = event.element.slider_value
 			entry.colorTool.color[channel] = newVal
-			text.text = tostring(math.floor(newVal * 255))
+			field.text = tostring(math.floor(newVal * 255))
 			preview.style.color = entry.colorTool.color
 		end
-		M.handlers[text.name] = function(event)
+		M.handlers[field.name] = function(event)
 			local newVal = tonumber(event.element.text)
 			if not newVal then
 				newVal = 0
@@ -153,7 +203,7 @@ M.open = function(entry)
 			elseif newVal < 0 then
 				newVal = 0
 			end
-			text.text = tostring(newVal)
+			field.text = tostring(newVal)
 
 			newVal = newVal / 255
 			entry.colorTool.color[channel] = newVal
@@ -162,16 +212,7 @@ M.open = function(entry)
 		end
 	end
 
-	local submit = frame.add({
-		type = "button",
-		name = M.getName(entry, frame, "submit"),
-		caption = { "gui.color-tool-submit" },
-		style = "confirm_button",
-	})
-
-	submit.style.horizontal_align = "center"
-	submit.style.width = 230
-	submit.style.height = 30
+	local submit = M.templates.submit:build(frame)
 
 	M.handlers[submit.name] = function(event)
 		M.close(entry)
