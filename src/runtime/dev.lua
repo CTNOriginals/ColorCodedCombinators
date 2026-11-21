@@ -19,6 +19,7 @@ local function onUdpPacketReceived(event)
 	end
 
 	log("---- dev: reloading mods ----\n")
+	game.print("Dev reload...")
 	game.reload_mods()
 end
 events.register(defines.events.on_udp_packet_received, onUdpPacketReceived)
