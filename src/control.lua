@@ -19,7 +19,7 @@ script.on_nth_tick(10, function()
 	if not player then
 		return
 	end
-	gui.colorTool.open(player)
+	gui.ui.colorTool.open(player)
 end)
 
 ---@param event EventData.on_player_selected_area | EventData.on_player_alt_selected_area

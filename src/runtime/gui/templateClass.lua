@@ -1,6 +1,5 @@
 local const = require("shared.constants")
 local util = require("util")
-local M = {}
 
 ---@class GuiTemplate.Definition: LuaGuiElement.add_param.base
 ---@class (partial) GuiTemplate.Definition.Partial: GuiTemplate.Definition
@@ -11,23 +10,24 @@ local M = {}
 ---@field style GuiTemplate.Style.Partial?
 
 ---@class GuiTemplate: GuiTemplate.Base
+---@field id string?
 ---@field definition GuiTemplate.Definition
-M.class = {}
+local class = {}
 
 ---@class GuiTemplate.Overrides: GuiTemplate.Base
 ---@field definition GuiTemplate.Definition.Partial?
 
-M.class.__index = M.class
-script.register_metatable(const.metatables.names.guiTemplate, M.class)
+class.__index = class
+script.register_metatable(const.metatables.names.guiTemplate, class)
 
 ---@type fun(self: GuiTemplate, instance: GuiTemplate): GuiTemplate
-function M.class:new(instance)
+function class:new(instance)
 	instance = instance or {}
 	return setmetatable(instance, self)
 end
 
 ---@type fun(self: GuiTemplate, parent: LuaGuiElement, name: string?): string
-function M.class:name(parent, name)
+function class:name(parent, name)
 	local suffix = name or self.definition.name or self.definition.type
 	return parent.name .. "_" .. suffix
 end
@@ -37,7 +37,15 @@ end
 ---parent: LuaGuiElement,
 ---overrides: GuiTemplate.Overrides?)
 ---: LuaGuiElement
-function M.class:build(parent, overrides)
+function class:build(parent, overrides)
+	local id = self.id
+
+	if not id then
+		error("[WARNING] Unknown Gui Template: " .. serpent.line(self, { sparse = true }))
+	end
+
+	self.id = id
+
 	local template = util.merge({ self, overrides or {} })
 	local element = parent.add(template.definition)
 
@@ -55,4 +63,4 @@ function M.class:build(parent, overrides)
 	return element
 end
 
-return M
+return class

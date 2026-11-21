@@ -1,8 +1,8 @@
 local const = require("shared.constants")
 
-local M = {}
-
-M.templates = require("runtime.gui.colorTool.templates")
+local M = {
+	templates = require("runtime.gui.colorTool.templates"),
+}
 
 ---@type table<string, fun(event: OnGuiEvents)>
 M.handlers = {}

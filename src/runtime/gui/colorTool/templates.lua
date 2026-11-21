@@ -1,9 +1,9 @@
-local template = require("runtime.gui.templates")
+local template = require("runtime.gui.templateClass")
 
 ---@type table<string, GuiTemplate>
 local M = {}
 
-M.frame = template.class:new({
+M.frame = template:new({
 	---@type LuaGuiElement.add_param.frame
 	definition = {
 		type = "frame",
@@ -14,14 +14,14 @@ M.frame = template.class:new({
 		auto_center = true,
 	},
 })
-M.section = template.class:new({
+M.section = template:new({
 	---@type LuaGuiElement.add_param.frame
 	definition = {
 		type = "frame",
 		direction = "vertical",
 	},
 })
-M.preview = template.class:new({
+M.preview = template:new({
 	---@type LuaGuiElement.add_param.progressbar
 	definition = {
 		type = "progressbar",
@@ -39,7 +39,7 @@ M.preview = template.class:new({
 		height = 20,
 	},
 })
-M.row = template.class:new({
+M.row = template:new({
 	---@type LuaGuiElement.add_param.flow
 	definition = {
 		type = "flow",
@@ -49,7 +49,7 @@ M.row = template.class:new({
 		vertical_align = "center",
 	},
 })
-M.label = template.class:new({
+M.label = template:new({
 	---@type LuaGuiElement.add_param
 	definition = {
 		type = "label",
@@ -59,7 +59,7 @@ M.label = template.class:new({
 		vertical_align = "center",
 	},
 })
-M.slider = template.class:new({
+M.slider = template:new({
 	---@type LuaGuiElement.add_param.slider
 	definition = {
 		type = "slider",
@@ -73,7 +73,7 @@ M.slider = template.class:new({
 		horizontal_align = "center",
 	},
 })
-M.field = template.class:new({
+M.field = template:new({
 	---@type LuaGuiElement.add_param.textfield
 	definition = {
 		type = "textfield",
@@ -83,7 +83,7 @@ M.field = template.class:new({
 		height = 20,
 	},
 })
-M.submit = template.class:new({
+M.submit = template:new({
 	---@type LuaGuiElement.add_param.button
 	definition = {
 		type = "button",
