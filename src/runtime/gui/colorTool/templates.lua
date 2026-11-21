@@ -1,4 +1,5 @@
 local template = require("runtime.gui.templateClass")
+local save = require("runtime.save.init")
 
 ---@type table<string, GuiTemplate>
 local M = {}
@@ -71,6 +72,12 @@ M.slider = template:new({
 		top_margin = 2,
 		vertical_align = "center",
 		horizontal_align = "center",
+	},
+	events = {
+		on_gui_value_changed = function(event, ctx)
+			local val = event.element.slider_value
+			ctx.entry.colorTool.color[ctx.tags.channel] = val
+		end,
 	},
 })
 M.field = template:new({

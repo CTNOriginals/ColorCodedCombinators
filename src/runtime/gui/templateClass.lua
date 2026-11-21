@@ -5,9 +5,19 @@ local util = require("util")
 ---@class (partial) GuiTemplate.Definition.Partial: GuiTemplate.Definition
 ---@class (partial) GuiTemplate.Style.Partial: LuaStyle
 
+---@class GuiTemplate.Context
+---@field entry Save.Player.Entry
+---@field tags Tags
+
+---@class GuiTemplate.Events
+---@field on_gui_click fun(event: EventData.on_gui_click, ctx: GuiTemplate.Context)?
+---@field on_gui_value_changed fun(event: EventData.on_gui_value_changed, ctx: GuiTemplate.Context)?
+---@field on_gui_text_changed fun(event: EventData.on_gui_text_changed, ctx: GuiTemplate.Context)?
+
 ---@class GuiTemplate.Base
 ---@field properties GuiTemplate.Definition.Partial?
 ---@field style GuiTemplate.Style.Partial?
+---@field events GuiTemplate.Events?
 
 ---@class GuiTemplate: GuiTemplate.Base
 ---@field id string?
