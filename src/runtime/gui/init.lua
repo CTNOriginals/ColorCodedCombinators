@@ -1,7 +1,7 @@
 local events = require("runtime.eventHandler")
 
 local M = {
-	colorTool = require("runtime.gui.colorTool"),
+	colorTool = require("runtime.gui.colorTool.init"),
 }
 
 ---@param event OnGuiEvents
