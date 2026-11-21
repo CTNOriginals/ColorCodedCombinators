@@ -41,8 +41,8 @@ M.shortcut.name = M.shortcut.tool .. "-shortcut"
 
 M.gui = {}
 M.gui.prefix = M.prefix .. "gui-"
-M.gui.colorTool = M.gui.prefix .. "color-tool-"
-M.gui.sliderStyle = M.gui.prefix .. "slider-"
+M.gui.colorTool = M.gui.prefix .. "color-tool"
+M.gui.sliderStyle = M.gui.prefix .. "slider"
 
 -- Meta
 

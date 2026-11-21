@@ -15,8 +15,11 @@ end)
 
 script.on_nth_tick(10, function()
 	script.on_nth_tick(10, nil)
-	-- storage = {}
-	-- save.init()
+	local player = save.players.get("CTN")
+	if not player then
+		return
+	end
+	gui.colorTool.open(player)
 end)
 
 ---@param event EventData.on_player_selected_area | EventData.on_player_alt_selected_area

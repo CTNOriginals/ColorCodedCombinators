@@ -5,13 +5,41 @@ local M = {}
 
 ---@type table<string, GuiTemplate>
 M.templates = {
+	frame = template.class:new({
+		---@type LuaGuiElement.add_param.frame
+		definition = {
+			type = "frame",
+			caption = { "gui.color-tool-title" },
+			direction = "vertical",
+		},
+		properties = {
+			auto_center = true,
+		},
+	}),
 	section = template.class:new({
 		---@type LuaGuiElement.add_param.frame
 		definition = {
 			type = "frame",
 			direction = "vertical",
 		},
-		style = {},
+	}),
+	preview = template.class:new({
+		---@type LuaGuiElement.add_param.progressbar
+		definition = {
+			type = "progressbar",
+			direction = "vertical",
+			value = 1,
+		},
+		style = {
+			bar_width = 25,
+			vertically_stretchable = true,
+			horizontally_stretchable = true,
+
+			vertical_align = "center",
+			horizontal_align = "center",
+			-- width = 208,
+			height = 20,
+		},
 	}),
 }
 
@@ -42,43 +70,24 @@ M.open = function(entry)
 		return
 	end
 
-	local existing = entry.player.gui.screen[M.getName(entry)]
+	local frameName = const.gui.colorTool .. "-" .. entry.player.name
+	local playerScreen = entry.player.gui.screen
+	local existing = playerScreen[M.templates.frame:name(playerScreen, frameName)]
 	if existing then
 		existing.destroy()
 	end
 
-	local frame = entry.player.gui.screen.add({
-		type = "frame",
-		name = M.getName(entry),
-		caption = { "gui.color-tool-title" },
-		direction = "vertical",
+	local frame = M.templates.frame:build(entry.player.gui.screen, {
+		definition = {
+			name = frameName,
+		},
 	})
-	frame.auto_center = true
-
-	-- local section = frame.add({
-	-- 	type = "frame",
-	-- 	name = M.getName(entry, frame, "section"),
-	-- 	direction = "vertical",
-	-- })
-	-- local section =
-
 	local section = M.templates.section:build(frame)
-	local preview = section.add({
-		type = "progressbar",
-		name = M.getName(entry, section, "sprite"),
+	local preview = M.templates.preview:build(section, {
+		style = {
+			color = entry.colorTool.color,
+		},
 	})
-
-	preview.value = 1
-	preview.style.bar_width = 25
-	preview.style.vertically_stretchable = true
-	preview.style.horizontally_stretchable = true
-
-	preview.style.vertical_align = "center"
-	preview.style.horizontal_align = "center"
-	preview.style.width = 208
-	preview.style.height = 20
-
-	preview.style.color = entry.colorTool.color
 
 	for channel, val in pairs(entry.colorTool.color) do
 		local row = section.add({
