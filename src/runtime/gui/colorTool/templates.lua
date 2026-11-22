@@ -73,6 +73,7 @@ M.slider = template:new({
 		vertical_align = "center",
 		horizontal_align = "center",
 	},
+	refs = {},
 	events = {
 		on_gui_value_changed = function(event, ctx)
 			local ele = event.element
