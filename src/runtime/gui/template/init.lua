@@ -5,11 +5,6 @@ local util = require("util")
 ---@class (partial) GuiTemplate.Definition.Partial: GuiTemplate.Definition
 ---@class (partial) GuiTemplate.Style.Partial: LuaStyle
 
----@class GuiTemplate.Context
----@field entry Save.Player.Entry
----@field template GuiTemplate
----@field tags Tags
-
 ---@alias GuiTemplate.Events.Callback<T> fun(event: T, ctx: GuiTemplate.Context)
 
 ---@class GuiTemplate.Events: {[OnGuiEvent.Type]: GuiTemplate.Events.Callback<OnGuiEvent.Data>}
