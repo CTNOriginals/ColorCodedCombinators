@@ -1,5 +1,6 @@
 local const = require("shared.constants")
 local util = require("util")
+local context = require("runtime.gui.template.context")
 
 ---@class GuiTemplate.Definition: LuaGuiElement.add_param.base
 ---@class (partial) GuiTemplate.Definition.Partial: GuiTemplate.Definition
@@ -73,6 +74,14 @@ function class:build(parent, overrides)
 	end
 
 	return element
+end
+
+---@type fun(self: GuiTemplate, element: LuaGuiElement): GuiTemplate.Context
+function class:context(element)
+	return context:new({
+		element = element,
+		template = self,
+	})
 end
 
 return class

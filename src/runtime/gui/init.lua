@@ -43,11 +43,7 @@ for name, gui in pairs(M.ui) do
 					end
 
 					-- log(eventType .. ": " .. event.name .. " " .. event.element.name)
-					fn(event, {
-						entry = entry,
-						template = template,
-						tags = event.element.tags or {},
-					})
+					fn(event, template:context(event.element))
 				end
 
 				log(eventType)
