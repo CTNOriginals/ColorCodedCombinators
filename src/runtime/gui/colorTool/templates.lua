@@ -1,4 +1,4 @@
-local template = require("runtime.gui.templateClass")
+local template = require("runtime.gui.template.init")
 local save = require("runtime.save.init")
 
 ---@type table<string, GuiTemplate>
