@@ -5,9 +5,6 @@ local util = require("util")
 ---@class (partial) GuiTemplate.Definition.Partial: GuiTemplate.Definition
 ---@class (partial) GuiTemplate.Style.Partial: LuaStyle
 
----@class GuiTemplate.Overrides: GuiTemplate.Base
----@field definition GuiTemplate.Definition.Partial?
-
 ---@class GuiTemplate.Context
 ---@field entry Save.Player.Entry
 ---@field template GuiTemplate
@@ -20,18 +17,18 @@ local util = require("util")
 ---@field on_gui_value_changed GuiTemplate.Events.Callback<EventData.on_gui_value_changed>?
 ---@field on_gui_text_changed GuiTemplate.Events.Callback<EventData.on_gui_text_changed>?
 
----@alias GuiTemplate.References table<string, GuiTemplate.Overrides>
-
 ---@class GuiTemplate.Base
 ---@field properties GuiTemplate.Definition.Partial?
 ---@field style GuiTemplate.Style.Partial?
----@field refs GuiTemplate.References?
 ---@field events GuiTemplate.Events?
 
 ---@class GuiTemplate: GuiTemplate.Base
 ---@field id string?
 ---@field definition GuiTemplate.Definition
 local class = {}
+
+---@class GuiTemplate.Overrides: GuiTemplate.Base
+---@field definition GuiTemplate.Definition.Partial?
 
 class.__index = class
 script.register_metatable(const.metatables.names.guiTemplate, class)
