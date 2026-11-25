@@ -1,5 +1,6 @@
 local events = require("runtime.eventHandler")
 local save = require("runtime.save.init")
+local registry = require("runtime.gui.registry")
 
 local M = {
 	ui = {
@@ -11,13 +12,11 @@ local M = {
 ---@field element LuaGuiElement?
 ---@field player_index uint
 
----@type table<string, GuiTemplate>
-M.templateRegistry = {}
-
 for name, gui in pairs(M.ui) do
 	for key, template in pairs(gui.templates) do
 		template.id = name .. "." .. key
-		M.templateRegistry[template.id] = template
+		registry.templates[template.id] = template
+		log(template.id .. ": " .. template.definition.type)
 
 		if template.events then
 			for eventType, fn in pairs(template.events) do
