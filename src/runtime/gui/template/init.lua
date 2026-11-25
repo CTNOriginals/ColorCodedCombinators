@@ -18,21 +18,21 @@ local context = require("runtime.gui.template.context")
 ---@field style GuiTemplate.Style.Partial?
 ---@field events GuiTemplate.Events?
 
----@class GuiTemplate: GuiTemplate.Base
+---@class GuiTemplate.Fields: GuiTemplate.Base
 ---@field id string?
 ---@field definition GuiTemplate.Definition
-local class = {}
 
 ---@class GuiTemplate.Overrides: GuiTemplate.Base
 ---@field definition GuiTemplate.Definition.Partial?
 
+---@class GuiTemplate: GuiTemplate.Fields
+local class = {}
 class.__index = class
-script.register_metatable(const.metatables.names.guiTemplate, class)
 
----@type fun(self: GuiTemplate, instance: GuiTemplate): GuiTemplate
-function class:new(instance)
-	instance = instance or {}
-	return setmetatable(instance, self)
+---@type fun(fields: GuiTemplate.Fields): GuiTemplate
+function class.new(fields)
+	local instance = fields --[[@as GuiTemplate]]
+	return setmetatable(instance, class)
 end
 
 ---@type fun(self: GuiTemplate, parent: LuaGuiElement, name: string?): string
