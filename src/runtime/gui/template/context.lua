@@ -27,6 +27,21 @@ function class.new(fields)
 	return setmetatable(instance, class)
 end
 
+---@type fun(self: GuiTemplate.Context): GuiTemplate.Context
+function class:getRoot()
+	local current = self.element
+	local next = current.parent
+
+	while next and next.get_mod() == const.name do
+		current = next
+		next = current.parent
+	end
+
+	return class.new({
+		element = current,
+	})
+end
+
 ---@type fun(self: GuiTemplate.Context): Save.Player.Entry
 function class:playerEntry()
 	local index = self.element.player_index
@@ -45,6 +60,7 @@ end
 ---filter: GuiTemplate.Overrides)
 ---: GuiTemplate.Context?
 function class:getElement(template, filter)
+	log(serpent.line(self:getRoot()))
 	return nil
 end
 
