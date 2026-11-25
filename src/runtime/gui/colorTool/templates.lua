@@ -78,9 +78,14 @@ M.slider = template.new({
 			local ele = ctx.element
 			local val = ele.slider_value
 			local entry = ctx:playerEntry()
-			local fieldname = M.field:name(ele.parent)
-			-- local sectionname = M.section:name
-			-- local previewname = M.preview:name(ele.parent)
+
+			local field = ctx:getElement(M.field, {
+				definition = {
+					tags = { channel = "g" },
+				},
+			})
+
+			log(serpent.line(field))
 
 			entry.colorTool.color[ele.tags.channel] = val
 		end,

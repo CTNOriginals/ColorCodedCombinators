@@ -1,4 +1,5 @@
 local const = require("shared.constants")
+local context = require("runtime.gui.template.context")
 
 local M = {
 	templates = require("runtime.gui.colorTool.templates"),
@@ -47,6 +48,8 @@ M.open = function(entry)
 		},
 	})
 
+	local testElem = nil
+
 	for channel, val in pairs(entry.colorTool.color) do
 		local row = M.templates.row:build(section, {
 			definition = {
@@ -80,6 +83,10 @@ M.open = function(entry)
 			},
 		})
 
+		if channel == "g" then
+			testElem = slider
+		end
+
 		-- M.handlers[slider.name] = function(event)
 		-- 	local newVal = event.element.slider_value
 		-- 	entry.colorTool.color[channel] = newVal
@@ -111,6 +118,22 @@ M.open = function(entry)
 		if entry.player.clear_cursor() then
 			entry.player.cursor_stack.set_stack({ name = const.shortcut.tool })
 		end
+	end
+
+	--NOTE: Dev testing
+	if testElem then
+		M.templates.slider.events.on_gui_value_changed(
+			{
+				element = testElem,
+				player_index = entry.player.index,
+				name = defines.events.on_gui_value_changed,
+				tick = 0,
+			},
+			context.new({
+				element = testElem,
+				template = M.templates.slider,
+			})
+		)
 	end
 end
 
