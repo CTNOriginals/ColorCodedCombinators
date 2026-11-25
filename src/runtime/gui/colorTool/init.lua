@@ -77,6 +77,7 @@ M.open = function(entry)
 		local field = M.templates.field:build(row, {
 			definition = {
 				text = tostring(math.floor(val * 255)),
+				tags = { channel = channel },
 			},
 			style = {
 				width = content.width * content.ratios.field,

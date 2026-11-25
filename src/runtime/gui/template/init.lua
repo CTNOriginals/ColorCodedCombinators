@@ -63,7 +63,7 @@ function class:build(parent, overrides)
 	local element = parent.add(template.definition)
 
 	element.name = self:name(parent, template.definition.name)
-	log(element.name)
+	-- log(element.name)
 
 	for key, value in pairs(template.properties or {}) do
 		element[key] = value

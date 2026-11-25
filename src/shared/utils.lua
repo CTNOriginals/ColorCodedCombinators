@@ -42,4 +42,32 @@ M.NewColor = function(r, g, b, a)
 	}
 end
 
+-- M.TableComparePresent()
+---@type fun(subset: table, target: table): boolean
+function M.TableCompareSubset(subset, target)
+	if not subset then
+		return true
+	elseif not target then
+		return false
+	end
+
+	for key in pairs(subset) do
+		if target[key] == nil then
+			return false
+		end
+
+		if type(subset[key]) == "table" then
+			if not M.TableCompareSubset(subset[key], target[key]) then
+				return false
+			end
+		else
+			if subset[key] ~= target[key] then
+				return false
+			end
+		end
+	end
+
+	return true
+end
+
 return M

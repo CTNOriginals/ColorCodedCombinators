@@ -1,6 +1,7 @@
 local save = require("runtime.save.init")
 local const = require("shared.constants")
 local registry = require("runtime.gui.registry")
+local utils = require("shared.utils")
 
 ---@class GuiTemplate.Context.Fields
 ---@field element LuaGuiElement
@@ -54,7 +55,56 @@ function class:getRoot()
 
 	return class.new({
 		element = current,
+		playerEntry = self.playerEntry,
 	})
+end
+
+---@type fun(self: GuiTemplate.Context, fn: fun(ctx: GuiTemplate.Context))
+function class:walk(fn)
+	fn(self)
+
+	for _, child in pairs(self.element.children) do
+		local ctx = class.new({
+			element = child,
+			playerEntry = self.playerEntry,
+		})
+
+		ctx:walk(fn)
+	end
+end
+
+---@type fun(self: GuiTemplate.Context, filter: GuiTemplate.Overrides): boolean
+function class:compare(filter)
+	local fields = util.merge({ filter.definition or {}, filter.properties })
+
+	local props = utils.TableCompareSubset(fields, self.element)
+	local styles = utils.TableCompareSubset(filter.style, self.element.style --[[@as LuaStyle]])
+
+	return props and styles
+end
+
+---@type fun(
+---self: GuiTemplate.Context,
+---template: GuiTemplate,
+---filter: GuiTemplate.Overrides)
+---: GuiTemplate.Context[]
+function class:getAllElements(template, filter)
+	local root = self:getRoot()
+	local matches = {}
+
+	root:walk(function(ctx)
+		if template.id ~= ctx.template.id then
+			return
+		end
+
+		if not ctx:compare(filter) then
+			return
+		end
+
+		table.insert(matches, ctx)
+	end)
+
+	return matches
 end
 
 ---@type fun(
@@ -63,8 +113,8 @@ end
 ---filter: GuiTemplate.Overrides)
 ---: GuiTemplate.Context?
 function class:getElement(template, filter)
-	log(serpent.line(self:getRoot()))
-	return nil
+	local matches = self:getAllElements(template, filter)
+	return matches[1]
 end
 
 return class
