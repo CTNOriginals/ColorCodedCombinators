@@ -10,7 +10,7 @@ script.on_init(save.init)
 script.on_configuration_changed(save.init)
 
 script.on_load(function()
-	save.log()
+	-- save.log()
 end)
 
 script.on_nth_tick(10, function()
