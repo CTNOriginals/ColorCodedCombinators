@@ -77,7 +77,6 @@ M.slider = template.new({
 		on_gui_value_changed = function(event, ctx)
 			local ele = ctx.element
 			local val = ele.slider_value
-			local entry = ctx:playerEntry()
 
 			local field = ctx:getElement(M.field, {
 				definition = {
@@ -87,7 +86,7 @@ M.slider = template.new({
 
 			log(serpent.line(field))
 
-			entry.colorTool.color[ele.tags.channel] = val
+			ctx.playerEntry.colorTool.color[ele.tags.channel] = val
 		end,
 	},
 })

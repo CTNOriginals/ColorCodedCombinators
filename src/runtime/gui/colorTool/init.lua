@@ -132,6 +132,7 @@ M.open = function(entry)
 			context.new({
 				element = testElem,
 				template = M.templates.slider,
+				playerEntry = entry,
 			})
 		)
 	end
