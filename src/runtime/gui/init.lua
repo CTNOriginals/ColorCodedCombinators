@@ -7,17 +7,9 @@ local M = {
 	},
 }
 
----@enum (key) OnGuiEvent.Type
-M.guiEventNames = {
-	on_gui_click = defines.events.on_gui_click,
-	on_gui_value_changed = defines.events.on_gui_value_changed,
-	on_gui_text_changed = defines.events.on_gui_text_changed,
-}
-
----@alias OnGuiEvent.Data
----| EventData.on_gui_click
----| EventData.on_gui_value_changed
----| EventData.on_gui_text_changed
+---@class OnGuiEvent.Data: EventData
+---@field element LuaGuiElement?
+---@field player_index uint
 
 ---@type table<string, GuiTemplate>
 M.templateRegistry = {}

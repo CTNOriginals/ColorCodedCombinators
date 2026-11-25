@@ -8,7 +8,7 @@ local context = require("runtime.gui.template.context")
 
 ---@alias GuiTemplate.Events.Callback<T> fun(event: T, ctx: GuiTemplate.Context)
 
----@class GuiTemplate.Events: {[OnGuiEvent.Type]: GuiTemplate.Events.Callback<OnGuiEvent.Data>}
+---@class GuiTemplate.Events
 ---@field on_gui_click GuiTemplate.Events.Callback<EventData.on_gui_click>?
 ---@field on_gui_value_changed GuiTemplate.Events.Callback<EventData.on_gui_value_changed>?
 ---@field on_gui_text_changed GuiTemplate.Events.Callback<EventData.on_gui_text_changed>?
