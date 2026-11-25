@@ -8,10 +8,10 @@ local save = require("runtime.save.init")
 local class = {}
 class.__index = class
 
----@type fun(self: GuiTemplate.Context, fields: GuiTemplate.Context.Fields): GuiTemplate.Context
-function class:new(fields)
+---@type fun(fields: GuiTemplate.Context.Fields): GuiTemplate.Context
+function class.new(fields)
 	local instance = fields --[[@as GuiTemplate.Context]]
-	return setmetatable(instance, self)
+	return setmetatable(instance, class)
 end
 
 ---@type fun(self: GuiTemplate.Context): Save.Player.Entry

@@ -78,7 +78,7 @@ end
 
 ---@type fun(self: GuiTemplate, element: LuaGuiElement): GuiTemplate.Context
 function class:context(element)
-	return context:new({
+	return context.new({
 		element = element,
 		template = self,
 	})
