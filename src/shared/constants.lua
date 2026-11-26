@@ -4,6 +4,7 @@ local M = {}
 
 M.name = "color-coded-combinators"
 M.prefix = "ccc-"
+M.pathSeperator = "/"
 
 -- Combinators
 
