@@ -16,11 +16,11 @@ local context = require("runtime.gui.template.context")
 ---@class GuiTemplate.Base
 ---@field properties GuiTemplate.Definition.Partial?
 ---@field style GuiTemplate.Style.Partial?
----@field events GuiTemplate.Events?
 
 ---@class GuiTemplate.Fields: GuiTemplate.Base
 ---@field id string?
 ---@field definition GuiTemplate.Definition
+---@field events GuiTemplate.Events?
 
 ---@class GuiTemplate.Overrides: GuiTemplate.Base
 ---@field definition GuiTemplate.Definition.Partial?
