@@ -73,6 +73,9 @@ function class:walk(fn)
 	end
 end
 
+---Compares self.element with a subset of properties described in filter.
+---If all fields in filter are present and equal to the corrisponding
+---field in self.element this function will return true.
 ---@type fun(self: GuiTemplate.Context, filter: GuiTemplate.Overrides): boolean
 function class:compare(filter)
 	if not filter then
@@ -87,6 +90,7 @@ function class:compare(filter)
 	return props and styles
 end
 
+---Returns a list of elements that match the template and filter.
 ---@type fun(
 ---self: GuiTemplate.Context,
 ---template: GuiTemplate,
@@ -111,6 +115,9 @@ function class:getAllElements(template, filter)
 	return matches
 end
 
+---Returns the first element found that matches the template and filters.
+---The order of elements is determined by their depth in the element tree,
+---and if that is the same, it falls back to which one was created first.
 ---@type fun(
 ---self: GuiTemplate.Context,
 ---template: GuiTemplate,
