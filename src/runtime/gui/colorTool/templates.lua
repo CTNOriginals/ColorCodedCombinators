@@ -78,8 +78,7 @@ M.slider = template.new({
 			local ele = ctx.element
 			local val = ele.slider_value
 
-			local field = ctx:getElement({
-				template = M.field,
+			local field = ctx:getElement(M.field, {
 				properties = {
 					tags = { channel = "g" },
 				},

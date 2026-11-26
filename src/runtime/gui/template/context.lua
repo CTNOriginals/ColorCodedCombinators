@@ -1,8 +1,7 @@
-local const = require("shared.constants")
-local utils = require("shared.utils")
 local save = require("runtime.save.init")
+local const = require("shared.constants")
 local registry = require("runtime.gui.registry")
-local filterClass = require("runtime.gui.template.filter")
+local utils = require("shared.utils")
 
 ---@class GuiTemplate.Context.Fields
 ---@field element LuaGuiElement
@@ -25,7 +24,12 @@ function class.new(fields)
 	end
 
 	if not instance.template then
-		instance.template = registry.getTemplate(fields.element)
+		local templateId = fields.element.tags.template
+		instance.template = registry.templates[templateId]
+
+		if not templateId or not instance.template then
+			fatal("Invalid template id: " .. templateId)
+		end
 	end
 
 	if not instance.playerEntry then
@@ -73,7 +77,7 @@ end
 ---Compares self.element with a subset of properties described in filter.
 ---If all fields in filter are present and equal to the corrisponding
 ---field in self.element this function will return true.
----@type fun(self: GuiTemplate.Context, filter: GuiTemplate.Filter.Fields): boolean
+---@type fun(self: GuiTemplate.Context, filter: GuiTemplate.Overrides): boolean
 function class:compare(filter)
 	if not filter then
 		return true
@@ -88,15 +92,15 @@ end
 ---Returns a list of elements that match the template and filter.
 ---@type fun(
 ---self: GuiTemplate.Context,
----filter: GuiTemplate.Filter.Fields?)
+---template: GuiTemplate,
+---filter: GuiTemplate.Overrides?)
 ---: GuiTemplate.Context[]
-function class:getAllElements(filterFields)
+function class:getAllElements(template, filter)
 	local root = self:getRoot()
 	local matches = {}
-	local filter = filterClass.new(filterFields)
 
 	root:walk(function(ctx)
-		if filter.template.id ~= ctx.template.id then
+		if template.id ~= ctx.template.id then
 			return
 		end
 
@@ -115,10 +119,11 @@ end
 ---and if that is the same, it falls back to which one was created first.
 ---@type fun(
 ---self: GuiTemplate.Context,
----filter: GuiTemplate.Filter.Fields?)
+---template: GuiTemplate,
+---filter: GuiTemplate.Overrides?)
 ---: GuiTemplate.Context?
-function class:getElement(filter)
-	local matches = self:getAllElements(filter)
+function class:getElement(template, filter)
+	local matches = self:getAllElements(template, filter)
 	return matches[1]
 end
 
