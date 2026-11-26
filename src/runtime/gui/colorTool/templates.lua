@@ -84,7 +84,7 @@ M.slider = template.new({
 				},
 			})
 
-			log(serpent.line(field))
+			log(serpent.block(field))
 
 			ctx.playerEntry.colorTool.color[ele.tags.channel] = val
 		end,

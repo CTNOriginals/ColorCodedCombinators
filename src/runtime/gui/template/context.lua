@@ -75,6 +75,10 @@ end
 
 ---@type fun(self: GuiTemplate.Context, filter: GuiTemplate.Overrides): boolean
 function class:compare(filter)
+	if not filter then
+		return true
+	end
+
 	local fields = util.merge({ filter.definition or {}, filter.properties })
 
 	local props = utils.TableCompareSubset(fields, self.element)
@@ -86,7 +90,7 @@ end
 ---@type fun(
 ---self: GuiTemplate.Context,
 ---template: GuiTemplate,
----filter: GuiTemplate.Overrides)
+---filter: GuiTemplate.Overrides?)
 ---: GuiTemplate.Context[]
 function class:getAllElements(template, filter)
 	local root = self:getRoot()
@@ -110,7 +114,7 @@ end
 ---@type fun(
 ---self: GuiTemplate.Context,
 ---template: GuiTemplate,
----filter: GuiTemplate.Overrides)
+---filter: GuiTemplate.Overrides?)
 ---: GuiTemplate.Context?
 function class:getElement(template, filter)
 	local matches = self:getAllElements(template, filter)
