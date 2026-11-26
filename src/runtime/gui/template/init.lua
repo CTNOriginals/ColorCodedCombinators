@@ -38,7 +38,7 @@ end
 ---@type fun(self: GuiTemplate, parent: LuaGuiElement, name: string?): string
 function class:name(parent, name)
 	local suffix = name or self.definition.name or self.definition.type
-	return parent.name .. "_" .. suffix
+	return parent.name .. "/" .. suffix
 end
 
 ---@type fun(
