@@ -93,16 +93,15 @@ end
 ---Returns a list of elements that match the template and filter.
 ---@type fun(
 ---self: GuiTemplate.Context,
----template: GuiTemplate,
 ---filter: GuiTemplate.Filter.Fields?)
 ---: GuiTemplate.Context[]
-function class:getAllElements(template, filterFields)
+function class:getAllElements(filterFields)
 	local root = self:getRoot()
 	local matches = {}
 	local filter = filterClass.new(filterFields)
 
 	root:walk(function(ctx)
-		if template.id ~= ctx.template.id then
+		if filter.template.id ~= ctx.template.id then
 			return
 		end
 
@@ -121,11 +120,10 @@ end
 ---and if that is the same, it falls back to which one was created first.
 ---@type fun(
 ---self: GuiTemplate.Context,
----template: GuiTemplate,
 ---filter: GuiTemplate.Filter.Fields?)
 ---: GuiTemplate.Context?
-function class:getElement(template, filter)
-	local matches = self:getAllElements(template, filter)
+function class:getElement(filter)
+	local matches = self:getAllElements(filter)
 	return matches[1]
 end
 
