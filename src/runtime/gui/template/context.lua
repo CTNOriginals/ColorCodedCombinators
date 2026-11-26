@@ -25,12 +25,7 @@ function class.new(fields)
 	end
 
 	if not instance.template then
-		local templateId = fields.element.tags.template
-		instance.template = registry.templates[templateId]
-
-		if not templateId or not instance.template then
-			fatal("Invalid template id: " .. templateId)
-		end
+		instance.template = registry.getTemplate(fields.element)
 	end
 
 	if not instance.playerEntry then
