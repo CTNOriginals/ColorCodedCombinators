@@ -27,6 +27,7 @@ local context = require("runtime.gui.template.context")
 
 ---@class GuiTemplate: GuiTemplate.Fields
 local class = {}
+---@private
 class.__index = class
 
 ---@type fun(fields: GuiTemplate.Fields): GuiTemplate

@@ -13,6 +13,7 @@ local filterClass = require("runtime.gui.template.filter")
 ---@field template GuiTemplate
 ---@field playerEntry Save.Player.Entry
 local class = {}
+---@private
 class.__index = class
 
 ---@type fun(fields: GuiTemplate.Context.Fields): GuiTemplate.Context

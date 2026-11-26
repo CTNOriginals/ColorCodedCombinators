@@ -3,6 +3,7 @@
 
 ---@class GuiTemplate.Filter: GuiTemplate.Filter.Fields
 local class = {}
+---@private
 class.__index = class
 
 ---@type fun(fields: GuiTemplate.Filter.Fields): GuiTemplate.Filter
