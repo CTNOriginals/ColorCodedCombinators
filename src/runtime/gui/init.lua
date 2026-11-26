@@ -54,6 +54,6 @@ local function handleGuiEvent(event)
 end
 events.register(defines.events.on_gui_click, handleGuiEvent)
 events.register(defines.events.on_gui_value_changed, handleGuiEvent)
-events.register(defines.events.on_gui_text_changed, handleGuiEvent)
+events.register(defines.events.on_player_gun_inventory_changed, handleGuiEvent)
 
 return M

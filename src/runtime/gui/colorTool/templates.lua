@@ -74,15 +74,15 @@ M.slider = template.new({
 		horizontal_align = "center",
 	},
 	events = {
-		on_gui_value_changed = function(event, ctx)
-			local ele = ctx.element
-			local val = ele.slider_value
+		on_gui_value_changed = function(_, ctx)
+			local val = ctx.element.slider_value
 
 			local field = ctx:getParent():getElement(M.field)
+			local preview = ctx:getRoot():getElement(M.preview)
 
-			log(serpent.block(field))
-
-			ctx.playerEntry.colorTool.color[ele.tags.channel] = val
+			field.element.text = tostring(math.floor(val * 255))
+			ctx.playerEntry.colorTool.color[ctx.element.tags.channel] = val
+			preview.element.style.color = ctx.playerEntry.colorTool.color
 		end,
 	},
 })
@@ -94,6 +94,28 @@ M.field = template.new({
 	},
 	style = {
 		height = 20,
+	},
+	events = {
+		on_gui_text_changed = function(event, ctx)
+			log(event.name)
+			local val = tonumber(ctx.element.text)
+
+			if not val then
+				val = 0
+			elseif val > 255 then
+				val = 255
+			elseif val < 0 then
+				val = 0
+			end
+			ctx.element.text = tostring(val)
+
+			local slider = ctx:getParent():getElement(M.slider)
+			local preview = ctx:getRoot():getElement(M.preview)
+
+			slider.element.slider_value = tostring(val / 255)
+			ctx.playerEntry.colorTool.color[ctx.element.tags.channel] = val / 255
+			preview.element.style.color = ctx.playerEntry.colorTool.color
+		end,
 	},
 })
 M.submit = template.new({

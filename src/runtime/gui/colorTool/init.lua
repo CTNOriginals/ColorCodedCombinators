@@ -87,29 +87,6 @@ M.open = function(entry)
 		if channel == "g" then
 			testElem = slider
 		end
-
-		-- M.handlers[slider.name] = function(event)
-		-- 	local newVal = event.element.slider_value
-		-- 	entry.colorTool.color[channel] = newVal
-		-- 	field.text = tostring(math.floor(newVal * 255))
-		-- 	preview.style.color = entry.colorTool.color
-		-- end
-		M.handlers[field.name] = function(event)
-			local newVal = tonumber(event.element.text)
-			if not newVal then
-				newVal = 0
-			elseif newVal > 255 then
-				newVal = 255
-			elseif newVal < 0 then
-				newVal = 0
-			end
-			field.text = tostring(newVal)
-
-			newVal = newVal / 255
-			entry.colorTool.color[channel] = newVal
-			slider.slider_value = newVal
-			preview.style.color = entry.colorTool.color
-		end
 	end
 
 	local submit = M.templates.submit:build(M.screen)
