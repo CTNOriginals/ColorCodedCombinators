@@ -45,6 +45,11 @@ function class.new(fields)
 end
 
 ---@type fun(self: GuiTemplate.Context): GuiTemplate.Context
+function class:getParent()
+	return class.new({ element = self.element.parent })
+end
+
+---@type fun(self: GuiTemplate.Context): GuiTemplate.Context
 function class:getRoot()
 	local current = self.element
 	local next = current.parent
@@ -96,10 +101,9 @@ end
 ---filter: GuiTemplate.Overrides?)
 ---: GuiTemplate.Context[]
 function class:getAllElements(template, filter)
-	local root = self:getRoot()
 	local matches = {}
 
-	root:walk(function(ctx)
+	self:walk(function(ctx)
 		if template.id ~= ctx.template.id then
 			return
 		end
