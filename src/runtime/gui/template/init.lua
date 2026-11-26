@@ -73,6 +73,8 @@ function class:build(parent, overrides)
 		element.style[key] = value
 	end
 
+	log(element.name)
+
 	return element
 end
 

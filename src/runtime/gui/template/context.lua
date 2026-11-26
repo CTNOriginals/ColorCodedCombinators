@@ -76,15 +76,13 @@ end
 ---Compares self.element with a subset of properties described in filter.
 ---If all fields in filter are present and equal to the corrisponding
 ---field in self.element this function will return true.
----@type fun(self: GuiTemplate.Context, filter: GuiTemplate.Overrides): boolean
+---@type fun(self: GuiTemplate.Context, filter: GuiTemplate.Filter.Fields): boolean
 function class:compare(filter)
 	if not filter then
 		return true
 	end
 
-	local fields = util.merge({ filter.definition or {}, filter.properties })
-
-	local props = utils.TableCompareSubset(fields, self.element)
+	local props = utils.TableCompareSubset(filter.properties, self.element)
 	local styles = utils.TableCompareSubset(filter.style, self.element.style --[[@as LuaStyle]])
 
 	return props and styles
@@ -94,7 +92,7 @@ end
 ---@type fun(
 ---self: GuiTemplate.Context,
 ---template: GuiTemplate,
----filter: GuiTemplate.Overrides?)
+---filter: GuiTemplate.Filter.Fields?)
 ---: GuiTemplate.Context[]
 function class:getAllElements(template, filter)
 	local root = self:getRoot()
@@ -121,7 +119,7 @@ end
 ---@type fun(
 ---self: GuiTemplate.Context,
 ---template: GuiTemplate,
----filter: GuiTemplate.Overrides?)
+---filter: GuiTemplate.Filter.Fields?)
 ---: GuiTemplate.Context?
 function class:getElement(template, filter)
 	local matches = self:getAllElements(template, filter)
