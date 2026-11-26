@@ -1,7 +1,8 @@
-local save = require("runtime.save.init")
 local const = require("shared.constants")
-local registry = require("runtime.gui.registry")
 local utils = require("shared.utils")
+local save = require("runtime.save.init")
+local registry = require("runtime.gui.registry")
+local filterClass = require("runtime.gui.template.filter")
 
 ---@class GuiTemplate.Context.Fields
 ---@field element LuaGuiElement
@@ -94,9 +95,10 @@ end
 ---template: GuiTemplate,
 ---filter: GuiTemplate.Filter.Fields?)
 ---: GuiTemplate.Context[]
-function class:getAllElements(template, filter)
+function class:getAllElements(template, filterFields)
 	local root = self:getRoot()
 	local matches = {}
+	local filter = filterClass.new(filterFields)
 
 	root:walk(function(ctx)
 		if template.id ~= ctx.template.id then

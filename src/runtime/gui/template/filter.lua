@@ -10,3 +10,5 @@ function class.new(fields)
 	local instance = fields --[[@as GuiTemplate.Filter]]
 	return setmetatable(instance, class)
 end
+
+return class
